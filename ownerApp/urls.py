@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import testfunc
+from .views import get_registration
 
 urlpatterns = [
-    path('test/', testfunc, name='test')
+    path('registration/', get_registration, name='test')
 ]

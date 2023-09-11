@@ -1,4 +1,5 @@
 from django.shortcuts import render
 
-def testfunc(request):
-    return render(request, 'owner/test.html')
+def get_registration(request):
+    # ToDo errorMessagesの実装
+    return render(request, 'owner/registration.html', {'errorMessages': None})

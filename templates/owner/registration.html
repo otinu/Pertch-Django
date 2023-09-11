@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8" />
+    {% load static %}
+
+    <link href="{% static 'css/owner/registration.css' %}" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="{% static 'image/favicon-32x32.png' %}" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+    <script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+    <title>Pertch</title>
+</head>
+
+<body>
+
+    {% if not errorMessages %}
+    <script th:inline="javascript">alert(/*[[${errorMessages}]]*/"ここが読み込まれてます");</script>
+    {% endif %}
+
+
+
+    <main class="main">
+        <form class="form" th:action="@{/registration}" method="post" th:object="${ownerForm}">
+            <div class="form__item">
+                <label for="username">Name</label><input type="text" placeholder="お名前" th:field="*{ownerName}"
+                    required />
+            </div>
+            <div class="form__item">
+                <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off"
+                    th:field="*{password}" required />
+            </div>
+
+            <div class="form__item">
+                <label for="password">Email</label> <input type="text" placeholder="メールアドレス" th:field="*{username}"
+                    required />
+            </div>
+            <div class="form__item">
+                <label for="password">Message</label>
+                <div class="input-message-area">
+                    <th:block th:if="${#strings.isEmpty(inputMessage)}">
+                        <textarea placeholder="目撃者へのメッセージ" id="message" name="message"></textarea>
+                    </th:block>
+                    <th:block th:if="${not #strings.isEmpty(inputMessage)}">
+                        <textarea id="message" name="message" th:text="${inputMessage}"></textarea>
+                    </th:block>
+                </div>
+            </div>
+            <div class="form__item">
+                <label for="password">Contact</label><input type="text" placeholder="ご連絡先" th:field="*{contact}" />
+            </div>
+            <div class="form__item">
+                <input class="submit-button registration-button" type="submit" value="Sign Up" />
+            </div>
+
+        </form>
+        <form class="form-signin top-button" method="get" th:action="@{/top}">
+            <div class="form__item">
+                <input class="submit-button" type="submit" value="TOP" />
+            </div>
+        </form>
+    </main>
+    <script src="{% static 'js/owner/registration.js' %}"></script>
+
+    <!-- テンプレート継承での共通化をしたい -->
+    <footer style="text-align: center; margin-top: 8%">
+        <small>©Otinu</small>
+    </footer>
+</body>
+
+</html>

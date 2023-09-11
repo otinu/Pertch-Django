@@ -1,0 +1,100 @@
+body {
+    font-size: 20px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+textarea {
+    font-size: 1.2rem;
+    width: 100%;
+    height: 9rem;
+    padding: 6px;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+textarea:hover,
+textarea:focus {
+    border-color: #b0c4de;
+    border-width: 2px;
+    outline: none;
+}
+
+input {
+    margin: 0;
+    outline: none;
+    border: none;
+    font-size: 20px;
+}
+
+input[type=submit] {
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.main {
+    width: 600px;
+    padding-top: 60px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.form__title {
+    margin-bottom: 45px;
+    font-size: 30px;
+}
+
+.form__item {
+    margin-bottom: 45px;
+    text-align: left;
+}
+
+.form__item>label {
+    display: block;
+    margin-bottom: 4vh;
+    font-weight: bold;
+}
+
+.input-message-area {
+    text-align: start;
+    margin-top: -5%;
+}
+
+.form__item>input[type=text],
+.form__item>input[type=password] {
+    width: 50%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    line-height: 40px;
+}
+
+.form__item>input[type=text]:hover,
+.form__item>input[type=password]:hover,
+.form__item>input[type=text]:focus,
+.form__item>input[type=password]:focus {
+    width: 100%;
+}
+
+.form__item>input[type=text]:hover,
+.form__item>input[type=password]:hover {
+    border-color: #b0c4de;
+    border-width: 2px;
+}
+
+.form__item>input[type=submit] {
+    width: 100%;
+}
+
+.submit-button {
+    background-color: #b0c4de;
+}
+
+.submit-button:hover {
+    background-color: #0091a2;
+}
+
+/*# sourceMappingURL=registration.css.map */
