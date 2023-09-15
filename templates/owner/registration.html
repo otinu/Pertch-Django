@@ -14,42 +14,38 @@
 </head>
 
 <body>
-
     {% if not errorMessages %}
-    <script th:inline="javascript">alert(/*[[${errorMessages}]]*/"ここが読み込まれてます");</script>
+    <script th:inline="javascript">alert("{{ errorMessages }}");</script>
     {% endif %}
 
-
-
     <main class="main">
-        <form class="form" th:action="@{/registration}" method="post" th:object="${ownerForm}">
+        <form class="form" method="post" action="{% url 'post_registration' %}">{% csrf_token %}
             <div class="form__item">
-                <label for="username">Name</label><input type="text" placeholder="お名前" th:field="*{ownerName}"
-                    required />
+                <label for="ownerName">Name</label><input type="text" placeholder="お名前" name="ownerName" required />
             </div>
             <div class="form__item">
                 <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off"
-                    th:field="*{password}" required />
+                    name="password" required />
             </div>
 
             <div class="form__item">
-                <label for="password">Email</label> <input type="text" placeholder="メールアドレス" th:field="*{username}"
-                    required />
+                <label for="contact">Email</label> <input type="text" placeholder="メールアドレス" name="contact" required />
             </div>
             <div class="form__item">
                 <label for="password">Message</label>
                 <div class="input-message-area">
-                    <th:block th:if="${#strings.isEmpty(inputMessage)}">
-                        <textarea placeholder="目撃者へのメッセージ" id="message" name="message"></textarea>
-                    </th:block>
-                    <th:block th:if="${not #strings.isEmpty(inputMessage)}">
-                        <textarea id="message" name="message" th:text="${inputMessage}"></textarea>
-                    </th:block>
+                    {% if not inputMessage %}
+                    <textarea placeholder="目撃者へのメッセージ" id="message" name="message"></textarea>
+                    {% else %}
+                    <textarea id="message" name="message">{{ inputMessage }}</textarea>
+                    {% endif %}
                 </div>
             </div>
+            <!-- ToDo 動作確認後、問題なければ削除予定
             <div class="form__item">
-                <label for="password">Contact</label><input type="text" placeholder="ご連絡先" th:field="*{contact}" />
+                <label for="contact">Contact</label><input type="text" placeholder="ご連絡先" name="contact" />
             </div>
+            -->
             <div class="form__item">
                 <input class="submit-button registration-button" type="submit" value="Sign Up" />
             </div>
@@ -63,7 +59,7 @@
     </main>
     <script src="{% static 'js/owner/registration.js' %}"></script>
 
-    <!-- テンプレート継承での共通化をしたい -->
+    <!-- ToDo テンプレート継承での共通化をしたい -->
     <footer style="text-align: center; margin-top: 8%">
         <small>©Otinu</small>
     </footer>
