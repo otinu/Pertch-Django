@@ -14,14 +14,14 @@
 </head>
 
 <body>
-    {% if not errorMessages %}
+    {% if errorMessages %}
     <script th:inline="javascript">alert("{{ errorMessages }}");</script>
     {% endif %}
 
     <main class="main">
-        <form class="form" method="post" action="{% url 'post_registration' %}">{% csrf_token %}
+        <form class="form" method="post" action="{% url 'registration' %}">{% csrf_token %}
             <div class="form__item">
-                <label for="ownerName">Name</label><input type="text" placeholder="お名前" name="ownerName" required />
+                <label for="username">Name</label><input type="text" placeholder="お名前" name="username" />
             </div>
             <div class="form__item">
                 <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off"
