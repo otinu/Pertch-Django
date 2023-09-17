@@ -5,11 +5,12 @@
 <link href="{% static 'css/owner/registration.css' %}" rel="stylesheet">
 {% endblock extra_css %}
 
-{% if errorMessages %}
-<script th:inline="javascript">alert("{{ errorMessages }}");</script>
+{% block main %}
+
+{% if error_message %}
+<script th:inline="javascript">alert("{{ error_message }}");</script>
 {% endif %}
 
-{% block main %}
 <main class="main">
     <form class="form" method="post" action="{% url 'registration' %}">
         {% csrf_token %}
@@ -34,19 +35,15 @@
                 {% endif %}
             </div>
         </div>
-        <!-- ToDo 動作確認後、問題なければ削除予定
-            <div class="form__item">
-                <label for="contact">Contact</label><input type="text" placeholder="ご連絡先" name="contact" />
-            </div>
-            -->
         <div class="form__item">
-            <input class="submit-button registration-button" type="submit" value="Sign Up" />
+            <input class="submit-button registration-button" type="submit" value="Registration" />
         </div>
 
     </form>
-    <form class="form-signin top-button" method="get" th:action="@{/top}">
+    <form class="form-signin top-button" method="get">
         <div class="form__item">
-            <input class="submit-button" type="submit" value="TOP" />
+            <input type="hidden" name="hidden_value" value="top">
+            <input class="submit-button" type="submit" value="Top" />
         </div>
     </form>
 </main>

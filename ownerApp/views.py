@@ -2,20 +2,22 @@ import datetime
 import traceback
 
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import IntegrityError
 
 from .forms import registration_form
 from .models import Owner
 
 
+def top(request):
+    return render(request, "owner/top.html")
+
+
 def registration(request):
     if request.method == "POST":
-        form = registration_form(request.POST)
-
         """
         # ToDo バリデーション追加
-        
+        form = registration_form(request.POST)
         if form.is_valid():
             return render(
                 request,
@@ -50,7 +52,17 @@ def registration(request):
                 {"error_message": "ユーザー登録に問題が発生しました"},
             )
 
-    return render(request, "owner/registration.html")
+    separation_string = screen_separation(request)
+    if separation_string == "normal":
+        return render(request, "owner/registration.html")
+    elif separation_string == "abnormal":
+        return render(
+            request,
+            "owner/registration.html",
+            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
+        )
+    else:
+        return redirect(separation_string)
 
 
 def login_func(request):
@@ -62,5 +74,38 @@ def login_func(request):
             login(request, user)
             return render(request, "pet/test.html", {"login_message": "logged in"})
         else:
-            return render(request, "pet/test.html", {"login_message": "not logged in"})
-    return render(request, "owner/login.html", {"login_message": "get method"})
+            return render(request, "owner/login.html", {"error_message": "ログインに失敗しました"})
+
+    """
+    # ログイン画面への遷移時
+    hidden_list = ["registration", "top"]
+    if not hidden_list in request.GET["hidden_value"]:
+        return render(request, "owner/login.html")
+
+    # ログイン画面から他の画面への遷移時
+    next = request.GET["hidden_value"]
+    next_page = "owner/" + next
+    return render(request, next_page)
+    """
+    separation_string = screen_separation(request)
+    if separation_string == "normal":
+        return render(request, "owner/login.html")
+    elif separation_string == "abnormal":
+        return render(
+            request, "owner/login.html", {"error_message": "予期せエラーが発生しました\n管理者にご確認ください"}
+        )
+    else:
+        return redirect(separation_string)
+
+
+def screen_separation(request):
+    try:
+        next_url = request.GET["hidden_value"]
+        return next_url
+    except KeyError as e:
+        error_message = traceback.format_exception_only(type(e), e)[0]
+        if "django.utils.datastructures.MultiValueDictKeyError" in error_message:
+            return "normal"
+
+        traceback.format_exc()
+        return "abnormal"

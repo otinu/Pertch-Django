@@ -6,10 +6,13 @@
 <link href="{% static 'css/owner/login.css' %}" rel="stylesheet">
 {% endblock extra_css %}
 
-
-
 {% block main %}
-{% if user.is_authenticated %}
+
+{% if error_message %}
+<script th:inline="javascript">alert("{{ error_message }}");</script>
+{% endif %}
+
+{% if not user.is_authenticated %}
 <script th:inline="javascript">alert(/*[[${login_message}]]*/);</script>
 {% endif %}
 
@@ -26,10 +29,12 @@
                 autocomplete="off" required>
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">ログイン</button>
         </form>
-        <form class="form-signin" method="get" th:action="@{/registration}">
+        <form class="form-signin" method="get">
+            <input type="hidden" name="hidden_value" value="registration">
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">登録</button>
         </form>
-        <form class="form-signin" method="get" th:action="@{/top}">
+        <form class="form-signin" method="get">
+            <input type="hidden" name="hidden_value" value="top">
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">TOP</button>
         </form>
     </div>
