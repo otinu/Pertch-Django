@@ -11,7 +11,8 @@
 
 {% block main %}
 <main class="main">
-    <form class="form" method="post" action="{% url 'registration' %}">{% csrf_token %}
+    <form class="form" method="post" action="{% url 'registration' %}">
+        {% csrf_token %}
         <div class="form__item">
             <label for="username">Name</label><input type="text" placeholder="お名前" name="username" />
         </div>

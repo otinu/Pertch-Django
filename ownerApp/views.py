@@ -1,6 +1,7 @@
 import datetime
 import traceback
 
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.db import IntegrityError
 
@@ -52,5 +53,14 @@ def registration(request):
     return render(request, "owner/registration.html")
 
 
-def login(request):
-    return render(request, "owner/login.html", {"login_message": None})
+def login_func(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return render(request, "pet/test.html", {"login_message": "logged in"})
+        else:
+            return render(request, "pet/test.html", {"login_message": "not logged in"})
+    return render(request, "owner/login.html", {"login_message": "get method"})

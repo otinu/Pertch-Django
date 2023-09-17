@@ -9,6 +9,10 @@
 
 <body>
     <div class="h1">Petテスト</div>
+
+    {% if user.is_authenticated %}
+    <h3>ログインユーザーのみ公開の隠しメッセージ</h3>
+    {% endif %}
 </body>
 
 </html>
