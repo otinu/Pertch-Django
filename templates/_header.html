@@ -1,0 +1,26 @@
+<header>
+    <div class="header-container">
+        <button class="hamburger-menu">
+            <span></span> <span></span> <span></span>
+        </button>
+        <a id="title-logo-link" href="/pet/index"> <img id="title-logo-img" th:src='@{/img/title_logo.png}'>
+        </a>
+    </div>
+    <div id='menu-area'>
+        <h2>
+            <a href="/pet/index"><i class="fa-solid fa-magnifying-glass-location fa-2x"></i> ペット一覧</a>
+        </h2>
+        <h2>
+            <a href="/pet/new"><i class="fa-solid fa-shield-dog fa-2x"></i> ペット登録</a>
+        </h2>
+        <h2>
+            <a href="/owner/mypage"><i class="fa-solid fa-user fa-2x"></i> マイページ</a>
+        </h2>
+        <h2>
+            <form id="logout" sec:authorize="authenticated" method="post" th:action="@{/logout}">
+                <a href="#"><i class="fa-solid fa-door-open fa-2x"></i> ログアウト</a>
+            </form>
+        </h2>
+    </div>
+    <script th:src="@{/js/header.js}"></script>
+</header>

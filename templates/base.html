@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+    <script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+    <link rel="icon" type="image/png" href="{% static 'image/favicon-32x32.png' %}" />
+    <title>Pertch</title>
+
+    {# --CSS-- #}
+    {% block extra_css %}{% endblock extra_css %}
+
+</head>
+
+<body>
+    {# --ヘッダー-- #}
+    {% block header %}{% endblock header %}
+
+    {# --メインコンテンツ-- #}
+    {% block main %}{% endblock main %}
+
+    {# --JavaScript-- #}
+    {% block extra_javascript %}{% endblock extra_javascript %}
+    <footer style="text-align: center; margin-top: 8%">
+        <small>©Otinu</small>
+    </footer>
+</body>
+
+</html>

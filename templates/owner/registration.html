@@ -1,68 +1,56 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8" />
-    {% load static %}
+{% block extra_css %}
+<link href="{% static 'css/owner/registration.css' %}" rel="stylesheet">
+{% endblock extra_css %}
 
-    <link href="{% static 'css/owner/registration.css' %}" rel="stylesheet">
+{% if errorMessages %}
+<script th:inline="javascript">alert("{{ errorMessages }}");</script>
+{% endif %}
 
-    <link rel="icon" type="image/png" href="{% static 'image/favicon-32x32.png' %}" />
+{% block main %}
+<main class="main">
+    <form class="form" method="post" action="{% url 'registration' %}">{% csrf_token %}
+        <div class="form__item">
+            <label for="username">Name</label><input type="text" placeholder="お名前" name="username" />
+        </div>
+        <div class="form__item">
+            <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off"
+                name="password" required />
+        </div>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
-    <script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
-    <title>Pertch</title>
-</head>
-
-<body>
-    {% if errorMessages %}
-    <script th:inline="javascript">alert("{{ errorMessages }}");</script>
-    {% endif %}
-
-    <main class="main">
-        <form class="form" method="post" action="{% url 'registration' %}">{% csrf_token %}
-            <div class="form__item">
-                <label for="username">Name</label><input type="text" placeholder="お名前" name="username" />
+        <div class="form__item">
+            <label for="contact">Email</label> <input type="text" placeholder="メールアドレス" name="contact" required />
+        </div>
+        <div class="form__item">
+            <label for="password">Message</label>
+            <div class="input-message-area">
+                {% if not inputMessage %}
+                <textarea placeholder="目撃者へのメッセージ" id="message" name="message"></textarea>
+                {% else %}
+                <textarea id="message" name="message">{{ inputMessage }}</textarea>
+                {% endif %}
             </div>
-            <div class="form__item">
-                <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off"
-                    name="password" required />
-            </div>
-
-            <div class="form__item">
-                <label for="contact">Email</label> <input type="text" placeholder="メールアドレス" name="contact" required />
-            </div>
-            <div class="form__item">
-                <label for="password">Message</label>
-                <div class="input-message-area">
-                    {% if not inputMessage %}
-                    <textarea placeholder="目撃者へのメッセージ" id="message" name="message"></textarea>
-                    {% else %}
-                    <textarea id="message" name="message">{{ inputMessage }}</textarea>
-                    {% endif %}
-                </div>
-            </div>
-            <!-- ToDo 動作確認後、問題なければ削除予定
+        </div>
+        <!-- ToDo 動作確認後、問題なければ削除予定
             <div class="form__item">
                 <label for="contact">Contact</label><input type="text" placeholder="ご連絡先" name="contact" />
             </div>
             -->
-            <div class="form__item">
-                <input class="submit-button registration-button" type="submit" value="Sign Up" />
-            </div>
+        <div class="form__item">
+            <input class="submit-button registration-button" type="submit" value="Sign Up" />
+        </div>
 
-        </form>
-        <form class="form-signin top-button" method="get" th:action="@{/top}">
-            <div class="form__item">
-                <input class="submit-button" type="submit" value="TOP" />
-            </div>
-        </form>
-    </main>
-    <script src="{% static 'js/owner/registration.js' %}"></script>
+    </form>
+    <form class="form-signin top-button" method="get" th:action="@{/top}">
+        <div class="form__item">
+            <input class="submit-button" type="submit" value="TOP" />
+        </div>
+    </form>
+</main>
+{% endblock main %}
 
-    <!-- ToDo テンプレート継承での共通化をしたい -->
-    <footer style="text-align: center; margin-top: 8%">
-        <small>©Otinu</small>
-    </footer>
-</body>
-
-</html>
+{% block extra_javascript %}
+<script src="{% static 'js/owner/registration.js' %}"></script>
+{% endblock extra_javascript %}
