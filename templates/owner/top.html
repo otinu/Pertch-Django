@@ -1,14 +1,34 @@
-<!DOCTYPE html>
-<html lang="ja">
+{% extends "base.html" %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block extra_css %}
+<meta http-equiv="X-UA-Compatible" />
+<link rel="stylesheet" href="{% static 'css/owner/top.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,700&family=Libre+Baskerville&family=Shadows+Into+Light&display=swap"
+    rel="stylesheet" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+{% endblock extra_css %}
 
-<body>
-    <div class="h1">Top画面です</div>
-</body>
+{% block main %}
+<div id="cancelArea">
+    <button id="animation-cancel">
+        <i class="fa-solid fa-forward fa-3x fa-fade"></i>
+    </button>
+</div>
 
-</html>
+<div id="container">
+    <div id="message-area" class="animate-title-first inview">
+        <h4 class="string">年間2万匹以上のペットが</h4>
+        <h4 class="string">家族と再会できず</h4>
+        <h4 class="string">この世を去っていきます</h4>
+    </div>
+</div>
+{% endblock main %}
+
+{% block extra_javascript %}
+<script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+<script src="{% static 'js/owner/top.js' %}"></script>
+{% endblock extra_javascript %}

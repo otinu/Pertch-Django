@@ -1,0 +1,653 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    background-color: #b0c4de;
+}
+
+h4 {
+    margin: 0;
+}
+
+#container {
+    position: relative;
+    height: 100vh;
+    background-color: #b0c4de;
+}
+
+@-webkit-keyframes animate_slide_in {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-10%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(50%);
+    }
+}
+
+@keyframes animate_slide_in {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-10%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(50%);
+    }
+}
+
+@-webkit-keyframes animate_flash_vanish {
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes animate_flash_vanish {
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes animate_flash_keep {
+    0% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.3;
+    }
+
+    25% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes animate_flash_keep {
+    0% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.3;
+    }
+
+    25% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.animate-title-first {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    color: white;
+    opacity: 0;
+    font-size: 2em;
+}
+
+.animate-title-first.inview {
+    opacity: 1;
+}
+
+.animate-title-first.inview .string {
+    -webkit-animation-name: animate_slide_in;
+    animation-name: animate_slide_in;
+    -webkit-animation-duration: 3s;
+    animation-duration: 3s;
+    -webkit-animation-timing-function: cubic-bezier(0, 0.63, 0.78, 0.73);
+    animation-timing-function: cubic-bezier(0, 0.63, 0.78, 0.73);
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    animation-direction: normal;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.animate-title-first.inview .string:nth-child(1) {
+    padding-top: 40%;
+    -webkit-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+}
+
+.animate-title-first.inview .string:nth-child(2) {
+    padding-top: 20%;
+    -webkit-animation-delay: 4s;
+    animation-delay: 4s;
+}
+
+.animate-title-first.inview .string:nth-child(3) {
+    padding-top: 20%;
+    -webkit-animation-delay: 6s;
+    animation-delay: 6s;
+}
+
+.animate-title-first.inview .string:nth-child(4) {
+    padding-top: 20%;
+    -webkit-animation-delay: 8s;
+    animation-delay: 8s;
+}
+
+.animate-title-first.inview .string:nth-child(5) {
+    padding-top: 20%;
+    -webkit-animation-delay: 10s;
+    animation-delay: 10s;
+}
+
+.animate-title-first.inview .string:nth-child(6) {
+    padding-top: 20%;
+    -webkit-animation-delay: 12s;
+    animation-delay: 12s;
+}
+
+.animate-title-first.inview .string:nth-child(7) {
+    padding-top: 20%;
+    -webkit-animation-delay: 14s;
+    animation-delay: 14s;
+}
+
+.animate-title-first.inview .string:nth-child(8) {
+    padding-top: 20%;
+    -webkit-animation-delay: 16s;
+    animation-delay: 16s;
+}
+
+.animate-title-first.inview .string:nth-child(9) {
+    padding-top: 20%;
+    -webkit-animation-delay: 18s;
+    animation-delay: 18s;
+}
+
+.animate-title-second {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+}
+
+.animate-title-second .string-second {
+    position: absolute;
+    color: black;
+    width: 65vw;
+    opacity: 0;
+    white-space: nowrap;
+    -webkit-animation-name: animate_slide_in;
+    animation-name: animate_slide_in;
+    -webkit-animation-duration: 8s;
+    animation-duration: 8s;
+    -webkit-animation-timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99);
+    animation-timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99);
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    animation-direction: normal;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.animate-title-third {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    font-size: 1.5em;
+    background-color: #b0c4de;
+}
+
+.animate-title-third .string-third {
+    position: absolute;
+    color: white;
+    width: 65vw;
+    opacity: 0;
+    -webkit-animation-name: animate_flash_vanish;
+    animation-name: animate_flash_vanish;
+    -webkit-animation-duration: 4s;
+    animation-duration: 4s;
+    -webkit-animation-timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99);
+    animation-timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99);
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    animation-direction: normal;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.search-cursor {
+    opacity: 1;
+    mix-blend-mode: color-burn;
+    width: 15%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 1920px) {
+    .search-cursor {
+        width: 7%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .search-cursor {
+        width: 7%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .search-cursor {
+        width: 12%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .search-cursor {
+        width: 20%;
+    }
+}
+
+#title-area {
+    position: relative;
+}
+
+#title {
+    position: absolute;
+    font-size: 3rem;
+    font-family: "Cormorant Garamond", serif;
+    font-family: "Libre Baskerville", serif;
+    font-family: "Shadows Into Light", cursive;
+}
+
+.found-pet {
+    position: absolute;
+    mix-blend-mode: darken;
+    -webkit-animation-name: animate_flash_keep;
+    animation-name: animate_flash_keep;
+    -webkit-animation-duration: 3s;
+    animation-duration: 3s;
+    -webkit-animation-timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99);
+    animation-timing-function: cubic-bezier(0.37, 0.51, 0.44, 0.99);
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    animation-direction: normal;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@media screen and (max-width: 1920px) {
+    .found-pet {
+        width: 10%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .found-pet {
+        width: 10%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .found-pet {
+        width: 12%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .found-pet {
+        width: 20%;
+    }
+}
+
+#logo {
+    position: absolute;
+}
+
+@media screen and (max-width: 1920px) {
+    #logo {
+        width: 10%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    #logo {
+        width: 10%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #logo {
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    #logo {
+        width: 30%;
+    }
+}
+
+#cancelArea {
+    margin-top: 1%;
+    margin-right: 2%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#cancelArea #animation-cancel {
+    background-color: #eee;
+    border-radius: 30%;
+    border-width: 0;
+}
+
+#cancelArea #animation-cancel .fa-forward {
+    color: #313131;
+    --fa-animation-duration: 3.5s;
+}
+
+#cancelArea :hover {
+    cursor: pointer;
+}
+
+/* 下記サイト参考
+    https://dubdesign.net/download/html-css/button-design/
+*/
+#button-area {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50vw;
+    padding-top: 1%;
+}
+
+.login-button a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: 10%;
+    max-width: 45%;
+    width: 47%;
+    padding: 10px 25px 10px 50px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 50px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.login-button a:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f2f6";
+    line-height: 1;
+    position: absolute;
+    left: 5px;
+    background: #fff;
+    padding: 12px 11px;
+    border-radius: 60px;
+    z-index: 2;
+}
+
+.login-button a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    display: block;
+    background: #ccc;
+    transition: 0.3s;
+    left: 0;
+}
+
+.login-button a:hover:after {
+    width: 100%;
+    z-index: -1;
+}
+
+@media screen and (max-width: 800px) {
+    .login-button a {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2%;
+        margin-left: 30%;
+        max-width: 70%;
+        width: 50%;
+        padding: 10px 25px 10px 50px;
+        color: #313131;
+        transition: 0.3s ease-in-out;
+        font-weight: 600;
+        background: #eee;
+        border-radius: 50px;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .login-button a:before {
+        font-family: "Font Awesome 5 Free";
+        content: "\f2f6";
+        line-height: 1;
+        position: absolute;
+        left: 5px;
+        background: #fff;
+        padding: 12px 11px;
+        border-radius: 60px;
+        z-index: 2;
+    }
+
+    .login-button a:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        display: block;
+        background: #ccc;
+        transition: 0.3s;
+        left: 0;
+    }
+
+    .login-button a:hover:after {
+        width: 100%;
+        z-index: -1;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .login-button a {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2%;
+        margin-left: 0%;
+        max-width: 90%;
+        width: 70%;
+        padding: 10px 25px 10px 50px;
+        color: #313131;
+        transition: 0.3s ease-in-out;
+        font-weight: 600;
+        background: #eee;
+        border-radius: 50px;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .login-button a:before {
+        font-family: "Font Awesome 5 Free";
+        content: "\f2f6";
+        line-height: 1;
+        position: absolute;
+        left: 5px;
+        background: #fff;
+        padding: 12px 11px;
+        border-radius: 60px;
+        z-index: 2;
+    }
+
+    .login-button a:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        display: block;
+        background: #ccc;
+        transition: 0.3s;
+        left: 0;
+    }
+
+    .login-button a:hover:after {
+        width: 100%;
+        z-index: -1;
+    }
+}
+
+.signup-button a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    margin-left: 0%;
+    max-width: 45%;
+    width: 40%;
+    padding: 10px 25px 10px 50px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 50px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.signup-button a:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f234";
+    line-height: 1;
+    position: absolute;
+    left: 5px;
+    background: #fff;
+    padding: 12px 11px;
+    border-radius: 60px;
+    z-index: 2;
+}
+
+.signup-button a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    display: block;
+    background: #ccc;
+    transition: 0.3s;
+    left: 0;
+}
+
+.signup-button a:hover:after {
+    width: 100%;
+    z-index: -1;
+}
+
+@media screen and (max-width: 420px) {
+    .signup-button a {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2%;
+        margin-left: -20%;
+        max-width: 90%;
+        width: 35%;
+        padding: 10px 25px 10px 50px;
+        color: #313131;
+        transition: 0.3s ease-in-out;
+        font-weight: 600;
+        background: #eee;
+        border-radius: 50px;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .signup-button a:before {
+        font-family: "Font Awesome 5 Free";
+        content: "\f234";
+        line-height: 1;
+        position: absolute;
+        left: 5px;
+        background: #fff;
+        padding: 12px 11px;
+        border-radius: 60px;
+        z-index: 2;
+    }
+
+    .signup-button a:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        display: block;
+        background: #ccc;
+        transition: 0.3s;
+        left: 0;
+    }
+
+    .signup-button a:hover:after {
+        width: 100%;
+        z-index: -1;
+    }
+}
+
+/*# sourceMappingURL=top.css.map */
