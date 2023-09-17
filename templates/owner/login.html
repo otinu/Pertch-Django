@@ -11,7 +11,7 @@
 
 <body>
     {% if user.is_authenticated %}
-    <script th:inline="javascript">alert(/*[[${signUpMessage}]]*/);</script>
+    <script th:inline="javascript">alert(/*[[${login_message}]]*/);</script>
     {% endblock content %}
 
     <div class="container">

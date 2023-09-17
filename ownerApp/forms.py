@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 Owner = get_user_model()
 
 
-class registrationForm(UserCreationForm):
+class registration_form(UserCreationForm):
     # ToDo バリデーション機能の追加
     # ⇒現状、ユーザー名未記載・HTMLのrequired抜き の場合にバリデーションがかからない
     class Meta:
@@ -13,5 +13,5 @@ class registrationForm(UserCreationForm):
         fields = Owner.REQUIRED_FIELDS + ["password1", "password2"]
 
 
-class LoginForm(AuthenticationForm):
+class login_form(AuthenticationForm):
     pass

@@ -4,13 +4,13 @@ import traceback
 from django.shortcuts import render
 from django.db import IntegrityError
 
-from .forms import registrationForm
+from .forms import registration_form
 from .models import Owner
 
 
 def registration(request):
     if request.method == "POST":
-        form = registrationForm(request.POST)
+        form = registration_form(request.POST)
 
         """
         # ToDo バリデーション追加
@@ -28,7 +28,7 @@ def registration(request):
         message = request.POST["message"]
         contact = request.POST["contact"]
 
-        # createdAt,updatedAt用
+        # created_at,updated_at用
         now = datetime.datetime.now()
         today = now.strftime("%Y-%m-%d")
 
@@ -38,15 +38,19 @@ def registration(request):
                 password=password,
                 message=message,
                 contact=contact,
-                createdAt=today,
-                updatedAt=today,
+                created_at=today,
+                updated_at=today,
             )
         except IntegrityError as e:
             traceback.format_exc()
             return render(
                 request,
                 "owner/registration.html",
-                {"errorMessages": "ユーザー登録に問題が発生しました"},
+                {"error_message": "ユーザー登録に問題が発生しました"},
             )
 
-    return render(request, "owner/registration.html", {"errorMessages": None})
+    return render(request, "owner/registration.html")
+
+
+def login(request):
+    return render(request, "owner/login.html", {"login_message": None})

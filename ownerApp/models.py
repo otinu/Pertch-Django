@@ -21,13 +21,13 @@ class Owner(AbstractUser):
     password = models.TextField()
     message = models.TextField()
     contact = models.EmailField(max_length=30, unique=True)
-    subContact = models.CharField(max_length=30)
+    sub_contact = models.CharField(max_length=30)
 
     now = datetime.datetime.now()
-    createdAt = models.DateTimeField(default=now)
-    updatedAt = models.DateTimeField(default=now)
+    created_at = models.DateTimeField(default=now)
+    updated_at = models.DateTimeField(default=now)
 
     USERNAME_FIELD = "username"
 
     # superuserを作る際、入力に含める
-    REQUIRED_FIELDS = ["contact", "createdAt", "updatedAt"]
+    REQUIRED_FIELDS = ["contact", "created_at", "updated_at"]
