@@ -72,7 +72,7 @@ def login_func(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return render(request, "pet/test.html", {"login_message": "logged in"})
+            return render(request, "pet/index.html")
         else:
             return render(request, "owner/login.html", {"error_message": "ログインに失敗しました"})
 

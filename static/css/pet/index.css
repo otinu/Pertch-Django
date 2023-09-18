@@ -1,0 +1,105 @@
+h4 {
+    text-align: start;
+    margin: 2% auto 0 auto;
+    color: lightsalmon;
+    text-align: center;
+    margin-bottom: 1%;
+}
+
+th {
+    white-space: nowrap;
+}
+
+td {
+    text-align: left;
+}
+
+button:has(.fa-pen-to-square),
+button:has(.fa-trash) {
+    background: none;
+    border: none;
+    font-size: larger;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+th {
+    cursor: pointer;
+}
+
+th:hover {
+    color: cornflowerblue;
+}
+
+#no-sort-column:hover {
+    color: black;
+    cursor: default;
+}
+
+
+.fa-pen-to-square {
+    color: lightseagreen;
+}
+
+.fa-trash {
+    color: lightcoral;
+}
+
+.action-message {
+    color: green;
+    text-align: center;
+}
+
+.alert-message {
+    color: red;
+    text-align: center;
+}
+
+.body-container {
+    position: absolute;
+    top: 15vh;
+    width: 100%;
+    height: 100%;
+}
+
+.table-area {
+    justify-content: center;
+    display: flex;
+
+}
+
+.search-inputarea {
+    width: 105%;
+    display: grid;
+    justify-content: center;
+    margin-bottom: 1.2%;
+}
+
+.search-first-inputarea {
+    margin-bottom: 1%;
+}
+
+.submit-button {
+    display: inline-block;
+    margin-top: 1%;
+    margin-left: 80%;
+    padding: 1% 2%;
+    border: none;
+    border-radius: 10%;
+    background-color: rgb(104, 145, 162);
+    color: #fff;
+    font-weight: bold;
+    appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: cornflowerblue;
+}
+
+.search-input-age {
+    width: 5%;
+}

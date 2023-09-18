@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pet/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/header.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+{% endblock extra_css %}
+
+{% block main %}
+
+{% block header %}
+{% include "_header.html" %}
+{% endblock header %}
+
+{% if error_message %}
+<script th:inline="javascript">alert("{{ error_message }}");</script>
+{% endif %}
+
+{% if user.is_authenticated %}
+<!-- 削除予定 -->
+<h3>ログインユーザーのみ公開の隠しメッセージ</h3>
+{% endif %}
+
+
+{% endblock main %}
+
+{% block extra_javascript %}
+<script src="{% static 'js/pet/index.js' %}"></script>
+<script src="{% static 'js/sort.js' %}"></script>
+<script src="{% static 'js/postCordAPI.js' %}"></script>
+<script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fetch-jsonp@1.1.3/build/fetch-jsonp.min.js"></script>
+{% endblock extra_javascript %}

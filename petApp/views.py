@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-def testfunc(request):
-    return render(request, 'pet/test.html')
+
+def index(request):
+    return render(request, "pet/index.html")

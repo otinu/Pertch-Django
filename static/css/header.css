@@ -1,0 +1,85 @@
+.header-container {
+    display: flex;
+    justify-content: start;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+    position: relative;
+}
+
+#title-logo-link {
+    margin: 0 45%;
+    position: absolute;
+}
+
+#title-logo-img {
+    visibility: visible;
+    height: 60px;
+    mix-blend-mode: multiply;
+}
+
+.hamburger-menu {
+    margin-left: 2vw;
+    background-color: unset;
+    outline: none !important;
+    cursor: pointer;
+}
+
+.hamburger-menu>span {
+    background-color: black;
+    width: 40px;
+    height: 2.2px;
+    display: block;
+    margin-bottom: 9px;
+    transition: transform 0.1s;
+}
+
+.hamburger-menu>span:first-child {
+    margin-top: 1vh;
+}
+
+.hamburger-menu>span:last-child {
+    margin-bottom: 1vh;
+}
+
+.menu-open {
+    background-color: #b0c4de;
+}
+
+.menu-open>span {
+    background-color: white;
+}
+
+.menu-open>span:nth-child(1) {
+    transition-delay: 50ms;
+    transform: translateY(11px) rotate(135deg);
+}
+
+.menu-open>span:nth-child(2) {
+    transition-delay: 0s;
+    transform: translateX(-18px) scaleX(0);
+}
+
+.menu-open>span:nth-child(3) {
+    transition-delay: 100ms;
+    transform: translateY(-11px) rotate(-135deg);
+}
+
+#menu-area {
+    width: 50vw;
+    height: 0;
+    margin: 0 auto;
+    background: unset;
+    visibility: hidden;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+#menu-area a {
+    margin-bottom: 5vh;
+    color: white;
+    text-decoration: none;
+}
+
+/*# sourceMappingURL=header.css.map */
