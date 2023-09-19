@@ -42,7 +42,7 @@ def new(request):
                 created_at=today,
                 updated_at=today,
             )
-            return render(request, "pet/index.html")
+            return redirect("/pet/index")
         except IntegrityError as e:
             traceback.format_exc()
 
