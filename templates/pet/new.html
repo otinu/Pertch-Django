@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pet/new.css' %}">
+<link rel="stylesheet" href="{% static 'css/header.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+{% endblock extra_css %}
+
+{% block header %}
+{% include "_header.html" %}
+{% endblock header %}
+
+{% block main %}
+
+{% if error_message %}
+<script>alert("{{ error_message }}");</script>
+{% endif %}
+
+<div class="body-container">
+
+    <div class="form-container">
+
+        <form id="pet-new" method="post" action="{% url 'new' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2 style="margin: 0;"><i class="fa-solid fa-shield-dog fa-2x"></i> ペット登録</h2>
+
+            <!-- ToDo バリデーションの表示 -->
+            <ul th:if="${#fields.hasErrors('*')}">
+                <li th:each="err:${#fields.errors('*')}">{{ error_message }}</li>
+            </ul>
+
+            <label>名前</label>
+            <input type=text name="name" required>
+
+            <div class="mix-area">
+
+                <div class="age-area">
+                    <label>年齢</label>
+                    <input type="number" name="age" required>
+                </div>
+
+                <div class="gender-area">
+                    <label>性別&nbsp;</label>
+                    <br>
+                    <div class="radio-button">
+                        &nbsp;
+                        <input type="radio" value="true" name="sex">
+                        ♂&nbsp;
+                    </div>
+                    <div class="radio-button">
+                        &nbsp;
+                        <input type="radio" value="false" name="sex">
+                        ♀
+                    </div>
+                </div>
+                <div class="image-area">
+                    <label class="file-label">
+                        <input type="file" name="upload_file">
+                        ペットの写真
+                    </label>
+                    <small>&nbsp;未選択</small>
+                </div>
+
+            </div>
+
+            <label>特徴</label>
+            <textarea type=text name="charmPoint"></textarea>
+            <label>郵便番号</label>
+            <input type=text name="postCord">
+            <label>住所</label>
+            <input type=text name="address">
+
+            <input type="submit" value="登録">
+        </form>
+    </div>
+    {% endblock main %}
+
+    {% block extra_javascript %}
+    <script src="{% static 'js/pet/new.js' %}"></script>
+    <script src="{% static 'js/header.js' %}"></script>
+    <script src="{% static 'js/postCordAPI.js' %}"></script>
+    {% endblock extra_javascript %}
