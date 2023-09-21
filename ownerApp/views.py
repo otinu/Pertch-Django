@@ -44,6 +44,7 @@ def registration(request):
                 created_at=today,
                 updated_at=today,
             )
+            return redirect("login")
         except IntegrityError as e:
             traceback.format_exc()
             return render(
