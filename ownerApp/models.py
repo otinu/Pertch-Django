@@ -4,18 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 
 # Djangoのログイン(認証)機能を使えるよう、AbstractUserを継承
-class Owner(AbstractUser):
-    """
-    継承フィールド一覧
-
-    username：CharField
-    first_name：CharField
-    last_name：CharField
-    email：EmailField
-    is_staff ：BooleanField
-    is_active：BooleanField
-    date_joined：DateTimeField
-    """
+class Owner(AbstractUser, models.Model):
+    class Meta:
+        db_table = "owner"
 
     username = models.CharField(max_length=20, unique=True)
     password = models.TextField()

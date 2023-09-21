@@ -3,6 +3,7 @@ import traceback
 
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
+from django_currentuser.middleware import get_current_authenticated_user
 
 from .models import PetModel
 
@@ -30,6 +31,9 @@ def new(request):
         now = datetime.datetime.now()
         today = now.strftime("%Y-%m-%d")
 
+        # ログインユーザーとPetの投稿を紐づけ
+        owner = get_current_authenticated_user()
+
         try:
             PetModel.objects.create(
                 name=name,
@@ -41,6 +45,7 @@ def new(request):
                 image=image,
                 created_at=today,
                 updated_at=today,
+                owner=owner,
             )
             return redirect("/pet/index")
         except IntegrityError as e:

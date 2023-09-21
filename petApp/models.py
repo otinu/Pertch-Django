@@ -3,8 +3,16 @@ import datetime
 from django.db import models
 from django.core.validators import MinLengthValidator
 
+from ownerApp.models import Owner
+
+# ToDo サブクラス(Meta)を使ってテーブル名指定
+# ToDo 非NULL制約 などの制約 + Fieldクラスのblankなどフィールドオプションの利用
+
 
 class PetModel(models.Model):
+    class Meta:
+        db_table = "pet"
+
     # (name)最小文字数2,最大文字数20
     name = models.CharField(validators=[MinLengthValidator(2)], max_length=20)
     age = models.CharField(validators=[MinLengthValidator(0)], max_length=99)
@@ -20,4 +28,5 @@ class PetModel(models.Model):
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(default=now)
 
-    # ToDo Owner・PetCommentとのリレーション
+    # Owner:Pet で 1:N の関係
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
