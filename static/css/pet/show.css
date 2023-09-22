@@ -1,0 +1,178 @@
+p {
+    margin: 0;
+}
+
+form>p {
+    text-align: start;
+}
+
+th {
+    white-space: nowrap;
+}
+
+td {
+    text-align: left;
+}
+
+label {
+    color: darkcyan;
+    text-align: start;
+    margin-top: 2%;
+}
+
+input,
+textarea,
+#owner-show-link {
+    font-size: 120%;
+    margin: 0;
+    text-align: start;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    mix-blend-mode: multiply;
+    font-weight: bold;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 40px;
+    max-height: 200px;
+}
+
+th {
+    cursor: pointer;
+}
+
+th:hover {
+    color: cornflowerblue;
+}
+
+.body-container {
+    position: absolute;
+    top: 15vh;
+    width: 100%;
+    height: 100%;
+}
+
+.form-container {
+    text-align: center;
+}
+
+#pet-show {
+    display: inline-grid;
+    width: 60%;
+    background-color: #fff;
+    background-image: linear-gradient(180deg, rgba(100, 100, 100, 0) 0%, rgba(100, 100, 100, 0) 97.5%, #646464 103%);
+    background-size: 100% 2em;
+    line-height: 2em;
+    border: solid 1px #e6e6e6;
+    padding: 1em 1em 1.98em 1em;
+    font-weight: bold;
+    box-shadow: 2px 2px 0 rgb(0 0 0 / 10%);
+}
+
+#pet-image {
+    width: 200px;
+    height: 200px;
+    margin: 10px auto 0 auto;
+    mix-blend-mode: normal;
+}
+
+.mix-area {
+    display: grid;
+    margin: 5% 0 3% 0;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+}
+
+.age-area>p,
+.gender-area>p {
+    display: inline;
+}
+
+/*--------- 目撃情報　---------*/
+
+#eye-witness-title {
+    margin-left: 10%;
+}
+
+#eyewitness-area {
+    display: grid;
+    margin-right: 1%;
+}
+
+#eyewitness-posing-area {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.eyewitness-label {
+    margin-right: 40%;
+}
+
+.event-text {
+    height: 12%;
+    width: 40%;
+    margin: 0% 0% 2% 2%;
+    padding: 0 2%;
+    border-radius: 5%;
+    border: none;
+    box-shadow: 0 0 0 1px #ccc inset;
+}
+
+.event-text:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgb(33, 150, 243) inset;
+}
+
+.event-textarea {
+    display: block;
+    font-size: medium;
+    font-family: inherit;
+    width: 40%;
+    height: 30%;
+    padding: 1%;
+    margin: 0% 0% 0% 2%;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0 0 0 1px #ccc inset;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    resize: vertical;
+    margin-inline: auto;
+}
+
+.event-textarea:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgb(33, 150, 243) inset;
+}
+
+#eyewitness-button {
+    display: inline-block;
+    width: 10%;
+    padding: 0.8%;
+    margin: 0% 0% 5% 20%;
+    border: none;
+    border-radius: 10%;
+    background-color: #b0c4de;
+    color: #fff;
+    font-weight: bold;
+    appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    border: 1% solid transparent;
+    text-align: center;
+    margin-top: 3%;
+    margin-inline: auto;
+}
+
+#eyewitness-button:hover {
+    background-color: rgb(104, 145, 162);
+}
+
+#eyewitness-button:focus {
+    outline: 0;
+    background-color: #000;
+    border: 1% solid rgb(33, 150, 243);
+}

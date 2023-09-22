@@ -22,7 +22,7 @@ class PetModel(models.Model):
     # ToDo 7文字ちょうどを指定したい
     postCord = models.CharField(validators=[MinLengthValidator(7)], max_length=8)
     address = models.CharField(max_length=50)
-    image = models.ImageField(upload_to="pet_image/")
+    image = models.ImageField(upload_to="pet/")
 
     now = datetime.datetime.now()
     created_at = models.DateTimeField(default=now)

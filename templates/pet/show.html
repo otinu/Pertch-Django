@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pet/show.css' %}">
+<link rel="stylesheet" href="{% static 'css/header.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+{% endblock extra_css %}
+
+{% block header %}
+{% include "_header.html" %}
+{% endblock header %}
+
+{% block main %}
+
+{% if error_message %}
+<script>alert("{{ error_message }}");</script>
+{% endif %}
+
+<div class="body-container">
+
+    <div class="form-container">
+
+        <form id="pet-show" method="#" enctype="multipart/form-data">
+            <h2 style="margin: 0;">{{ pet.name }}</h2>
+
+            {% if pet.image %}
+            <img id="pet-image" src="{{ pet.image.url }}">{# pet.image はNG #}
+            {% else %}
+            <img id="pet-image" src="{% static '/image/no-image.png' %}">
+            {% endif %}
+
+            <div class="mix-area">
+                <div class="age-area">
+                    <label>年齢</label>
+                    <p>{{ pet.age }}歳</p>
+                </div>
+                <div class="gender-area">
+                    <label>性別&nbsp;</label>
+                    {% if pet.sex %}
+                    <p>♂</p>
+                    {% else %}
+                    <p>♀</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <label>オーナー</label>
+            <!-- ToDo owner/showへのリンク -->
+            <a id="owner-show-link" th:href="@{/owner/show/{id}(id=*{owner.id})}" th:text="*{owner.ownerName}"></a>
+            <label>特徴</label>
+            <textarea readonly>{{ pet.charmPoint }}</textarea>
+            <label>郵便番号</label>
+            <p>{{ pet.postCord }}</p>
+            <label>住所</label>
+            <p>{{ pet.address }}</p>
+        </form>
+    </div>
+
+    <div id="eyewitness-area">
+        <br>
+        <h2 id="eye-witness-title">目撃情報</h2>
+        <table id="sort_table" border="1" th:unless="${#lists.isEmpty(petCommentList)}" style="table-layout: fixed;">
+            <colgroup>
+                <col width="10%">
+                <col width="30%">
+                <col width="60%">
+            </colgroup>
+            <tr>
+                <th class="eyewitness-table-header1">日時&nbsp;<i class="fa fa-sort"></i></th>
+                <th class="eyewitness-table-header1">場所&nbsp;<i class="fa fa-sort"></i></th>
+                <th class="eyewitness-table-header1">情報&nbsp;<i class="fa fa-sort"></i></th>
+            </tr>
+            <tr th:each="petComment : ${petCommentList}" align="center">
+                <td th:text="${petComment.eventTime}" class="show-eventTime"></td>
+                <td th:text="${petComment.eventPlace}"></td>
+                <td th:text="${petComment.eventInformation}"></td>
+            </tr>
+        </table>
+
+        <form method="POST" id="eyewitness-posing-area" th:action="@{/petComment/insert}" th:object="${petCommentForm}">
+            <div></div>
+            <label class="eyewitness-label">日時</label><br>
+            <input type="datetime-local" class="event-text" th:field="*{eventTime}" required></input>
+            <div></div>
+            <label class="eyewitness-label">場所</label><br>
+            <input type="text" class="event-text" th:field="*{eventPlace}" required></input>
+            <div></div>
+            <label class="eyewitness-label">情報</label><br>
+            <textarea class="event-textarea" th:field="*{eventInformation}" required></textarea>
+
+            <input type="hidden" name="petId" th:value="${petId}">
+            <input type="submit" id="eyewitness-button" value="投稿">
+        </form>
+
+    </div>
+    <script th:src="@{/js/pet/show.js}"></script>
+    <script th:src="@{/js/sort.js}"></script>
+    <th:block th:replace="fragment/footer :: copyRight"></th:block>
+</div>
+
+
+{% endblock main %}
+
+{% block extra_javascript %}
+<script src="{% static 'js/pet/show.js' %}"></script>
+<script src="{% static 'js/header.js' %}"></script>
+<script src="{% static 'js/sort.js' %}"></script>
+{% endblock extra_javascript %}

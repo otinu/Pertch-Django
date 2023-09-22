@@ -58,3 +58,8 @@ def new(request):
                 {"error_message": "ペット登録に問題が発生しました"},
             )
     return render(request, "pet/new.html")
+
+
+def show(request, id):
+    pet = PetModel.objects.get(id=id)
+    return render(request, "pet/show.html", context={"pet": pet})

@@ -93,9 +93,7 @@
                 {% for pet in list %}
                 <tr align="center">
                     <td align="left">
-                        <form id="pet-show" method="GET" th:action="@{/pet/show/{id}(id=${pet.id})}">
-                            <a href="#">{{ pet.name }}</a>
-                        </form>
+                        <a href="{% url 'show' pet.id %}">{{ pet.name }}</a>
                     </td>
                     <td style="text-align: center;">{{ pet.age }}</td>
                     {% if pet.sex %}
