@@ -27,7 +27,6 @@ def registration(request):
         """
 
         username = request.POST["username"]
-        password = request.POST["password"]
         message = request.POST["message"]
         contact = request.POST["contact"]
 
@@ -36,14 +35,16 @@ def registration(request):
         today = now.strftime("%Y-%m-%d")
 
         try:
-            Owner.objects.create(
+            owner = Owner.objects.create(
                 username=username,
-                password=password,
                 message=message,
                 contact=contact,
                 created_at=today,
                 updated_at=today,
             )
+            password = request.POST["password"]
+            owner.set_password(password)
+            owner.save()
             return redirect("login")
         except IntegrityError as e:
             traceback.format_exc()

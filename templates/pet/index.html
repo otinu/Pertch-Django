@@ -56,7 +56,7 @@
                 <label>住所</label>
                 <input id="address" type=text th:field="*{address}">
                 <label>飼い主</label>
-                <input type=text th:field="*{owner.ownerName}">
+                <input type=text th:field="*{owner}">
             </div>
             <div>
                 <input type="submit" class="submit-button" value="検索">
@@ -108,7 +108,7 @@
                     <td>{{ pet.address }}</td>
                     <td>
                         <!-- ToDo Ownerとのリレーション設定後に修正 -->
-                        <a th:href="@{/owner/show/{id}(id=${pet.owner.id})}">{{ pet.owner.ownerName }}</a>
+                        <a th:href="@{/owner/show/{id}(id=${pet.owner.id})}">{{ pet.owner.username }}</a>
                     </td>
                     <td>
                         {% if pet.owner.id == user.id %}
