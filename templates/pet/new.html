@@ -25,10 +25,13 @@
             {% csrf_token %}
             <h2 style="margin: 0;"><i class="fa-solid fa-shield-dog fa-2x"></i> ペット登録</h2>
 
-            <!-- ToDo バリデーションの表示 -->
+            {% if error_messages %}
             <ul th:if="${#fields.hasErrors('*')}">
-                <li th:each="err:${#fields.errors('*')}">{{ error_message }}</li>
+                {% for error_message in error_message %}
+                <li>{{ error_message }}</li>
+                {% endfor %}
             </ul>
+            {% endif %}
 
             <label>名前</label>
             <input type=text id="name" name="name" required>

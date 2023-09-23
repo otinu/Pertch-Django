@@ -57,7 +57,7 @@ def new(request):
             return render(
                 request,
                 "pet/new.html",
-                {"error_message": "ペット登録に問題が発生しました"},
+                {"error_messages": "ペット登録に問題が発生しました"},
             )
     return render(request, "pet/new.html")
 
