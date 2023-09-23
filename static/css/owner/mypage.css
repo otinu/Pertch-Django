@@ -1,0 +1,115 @@
+textarea {
+    resize: vertical;
+    max-width: 70%;
+    min-height: 22px;
+    max-height: 250px;
+    font-family: serif;
+}
+
+label {
+    display: inline-block;
+    margin-top: 1%;
+}
+
+.body-container {
+    position: absolute;
+    top: 15vh;
+    width: 100%;
+    height: 100%;
+}
+
+#owner-info-area {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr 2fr;
+}
+
+#name-area {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#owner-name {
+    margin: auto 0 0 10px;
+}
+
+#owner-contact {
+    margin: 5px 0 0 0;
+}
+
+.owner-contact {
+    height: 12%;
+    width: 40%;
+    margin: 1% 0% 0% 2%;
+    padding: 0 2%;
+    border-radius: 5%;
+    border: none;
+    box-shadow: 0 0 0 1px #ccc inset;
+    font-size: large;
+}
+
+.owner-contact:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgb(33, 150, 243) inset;
+}
+
+.owner-message {
+    display: block;
+    width: 40%;
+    height: 30%;
+    padding: 1% 2%;
+    margin: 1% 0% 0% 2%;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0 0 0 1px #ccc inset;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    resize: vertical;
+    font-size: large;
+}
+
+.owner-message:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgb(33, 150, 243) inset;
+}
+
+.submit-button {
+    display: inline-block;
+    width: 10%;
+    padding: 0.8%;
+    margin: 0% 0% 5% 20%;
+    border: none;
+    border-radius: 10%;
+    background-color: #b0c4de;
+    color: #fff;
+    font-weight: bold;
+    appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    border: 1% solid transparent;
+}
+
+.submit-button:hover {
+    background-color: rgb(104, 145, 162);
+}
+
+.deleteBtn {
+    display: inline-block;
+    width: 15%;
+    padding: 1.5%;
+    margin-top: 4%;
+    margin-left: 10%;
+    border: none;
+    border-radius: 10%;
+    background-color: lightcoral;
+    color: #fff;
+    font-weight: bold;
+    appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    background-color: red;
+}

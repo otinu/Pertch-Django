@@ -3,6 +3,7 @@ import traceback
 
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+from django_currentuser.middleware import get_current_authenticated_user
 from django.db import IntegrityError
 
 from .forms import registration_form
@@ -107,6 +108,40 @@ def logout_func(request):
     return redirect("/owner/top")
 
 
+def mypage(request):
+    owner = get_current_authenticated_user()
+    return render(
+        request,
+        "owner/mypage.html",
+        {"owner": owner},
+    )
+
+
+def update(request):
+    current_user = get_current_authenticated_user()
+    owner = Owner.objects.get(id=current_user.id)  # type: ignore
+
+    owner.contact = get_value_or_empty(request, "contact")
+    owner.sub_contact = get_value_or_empty(request, "sub-contact")
+    owner.message = get_value_or_empty(request, "owner-message")
+
+    try:
+        owner.save()
+    except Exception as e:
+        traceback.format_exc()
+        return render(
+            request,
+            "owner/mypage.html",
+            {"owner": owner, "error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
+        )
+
+    return render(
+        request,
+        "owner/mypage.html",
+        {"owner": owner, "update_message": "更新が完了しました"},
+    )
+
+
 def screen_separation(request):
     try:
         next_url = request.GET["hidden_value"]
@@ -118,3 +153,9 @@ def screen_separation(request):
 
         traceback.format_exc()
         return "abnormal"
+
+
+def get_value_or_empty(request, name):
+    if (name, "") in request.POST.items():
+        return ""
+    return request.POST[name]

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/owner/mypage.css' %}">
+<link rel="stylesheet" href="{% static 'css/header.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+{% endblock extra_css %}
+
+{% block header %}
+{% include "_header.html" %}
+{% endblock header %}
+
+{% block main %}
+{% if error_message %}
+<script>alert("{{ error_message }}");</script>
+{% endif %}
+
+<div class="body-container">
+    <div></div>
+    <div id="owner-info-area">
+        <div></div>
+        <div id="name-area">
+            <div>
+                <i class="fa-solid fa-user fa-3x"></i>
+                <h2 id="owner-name">{{ owner.username }}</h2>
+            </div>
+
+            <div>
+                <form method="POST" th:action="@{/owner/delete}">
+                    <input type="submit" class="deleteBtn" value="退会">
+                </form>
+            </div>
+        </div>
+        <div></div>
+
+        <form method="post" action="{% url 'update' %}">
+            {% csrf_token %}
+            <div></div>
+            <label>連絡先1</label><br>
+            <input type="text" class="owner-contact" name="contact" value="{{ owner.contact }}"></input>
+            <div></div>
+            <label>連絡先2</label><br>
+            <input type="text" class="owner-contact" name="sub-contact" value="{{ owner.sub_contact }}"></input>
+            <div></div>
+            <label>目撃者へのメッセージ</label><br>
+            <textarea class="owner-message" name="owner-message">{{ owner.message }}</textarea><br>
+            <input type="submit" class="submit-button" value="更新">
+        </form>
+
+    </div>
+
+
+
+    {% endblock main %}
+
+    {% block extra_javascript %}
+    <script src="{% static 'js/owner/mypage.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+    {% endblock extra_javascript %}
