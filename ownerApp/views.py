@@ -27,9 +27,9 @@ def registration(request):
             )
         """
 
-        username = request.POST["username"]
-        message = request.POST["message"]
-        contact = request.POST["contact"]
+        username = request.POST.get("username")
+        message = request.POST.get("message")
+        contact = request.POST.get("contact")
 
         # created_at,updated_at用
         now = datetime.datetime.now()
@@ -43,7 +43,7 @@ def registration(request):
                 created_at=today,
                 updated_at=today,
             )
-            password = request.POST["password"]
+            password = request.POST.get("password")
             owner.set_password(password)
             owner.save()
             return redirect("login")
@@ -70,8 +70,8 @@ def registration(request):
 
 def login_func(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
+        username = request.POST.get("username")
+        password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -139,9 +139,9 @@ def update(request):
     current_user = get_current_authenticated_user()
     owner = Owner.objects.get(id=current_user.id)  # type: ignore
 
-    owner.contact = get_value_or_empty(request, "contact")
-    owner.sub_contact = get_value_or_empty(request, "sub-contact")
-    owner.message = get_value_or_empty(request, "owner-message")
+    owner.contact = request.POST.get("contact")
+    owner.sub_contact = request.POST.get("sub-contact")
+    owner.message = request.POST.get("owner-message")
 
     try:
         owner.save()
@@ -187,9 +187,3 @@ def screen_separation(request):
 
         traceback.format_exc()
         return "abnormal"
-
-
-def get_value_or_empty(request, name):
-    if (name, "") in request.POST.items():
-        return ""
-    return request.POST[name]

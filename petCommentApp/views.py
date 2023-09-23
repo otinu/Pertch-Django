@@ -9,16 +9,16 @@ from .models import PetModel, PetCommentModel
 
 
 def new(request):
-    event_time = request.POST["event-time"]
-    event_place = request.POST["event-place"]
-    event_information = request.POST["event-information"]
+    event_time = request.POST.get("event-time")
+    event_place = request.POST.get("event-place")
+    event_information = request.POST.get("event-information")
 
     # created_at,updated_at用
     now = datetime.now()
     today = now.strftime("%Y-%m-%d")
 
     # PetとPetComentの紐づけ
-    pet_id = request.POST["pet-id"]
+    pet_id = request.POST.get("pet-id")
     try:
         pet = PetModel.objects.get(pk=pet_id)
     except PetModel.DoesNotExist:

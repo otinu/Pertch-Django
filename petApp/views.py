@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
 
 from petApp.models import PetModel
-from petCommentApp.models import PetCommentModel
 
 
 def index(request):
@@ -16,18 +15,18 @@ def index(request):
 
 def new(request):
     if request.method == "POST":
-        name = get_value_or_empty(request, "name")
-        age = get_value_or_empty(request, "age")
-        sex_string = get_value_or_empty(request, "sex")
+        name = request.POST.get("name")
+        age = request.POST.get("age")
+        sex_string = request.POST.get("sex")
         if sex_string:
             sex = True
         else:
             sex = False
-        charmPoint = get_value_or_empty(request, "charmPoint")
-        postCord = get_value_or_empty(request, "postCord")
-        address = get_value_or_empty(request, "address")
+        charmPoint = request.POST.get("charmPoint")
+        postCord = request.POST.get("postCord")
+        address = request.POST.get("address")
 
-        image = get_value_or_empty(request, "upload_file")
+        image = get_media_or_empty(request, "upload_file")
 
         # created_at,updated_at用
         now = datetime.datetime.now()
@@ -89,25 +88,25 @@ def edit(request, id):
         )
 
     if request.method == "POST":
-        age = get_value_or_empty(request, "age")
-        charmPoint = get_value_or_empty(request, "charmPoint")
-        postCord = get_value_or_empty(request, "postCord")
-        address = get_value_or_empty(request, "address")
+        age = request.POST.get("age")
+        charmPoint = request.POST.get("charmPoint")
+        postCord = request.POST.get("postCord")
+        address = request.POST.get("address")
 
-        image = get_value_or_empty(request, "upload_file")
+        image = get_media_or_empty(request, "upload_file")
 
         # created_at,updated_at用
         now = datetime.datetime.now()
         today = now.strftime("%Y-%m-%d")
-
-        # ログインユーザーとPetの投稿を紐づけ
-        owner = get_current_authenticated_user()
 
         try:
             pet.age = age
             pet.charmPoint = charmPoint
             pet.postCord = postCord
             pet.address = address
+            if image:
+                pet.image = image  # type: ignore
+            pet.updated_at = today  # type: ignore
             pet.save()
             return redirect("/pet/index")
         except Exception as e:
@@ -152,11 +151,8 @@ def get_one_pet(id):
         return None
 
 
-def get_value_or_empty(request, name):
+def get_media_or_empty(request, name):
     if (name, "") in request.POST.items():
         return ""
-
-    if name == "upload_file":
-        return request.FILES[name]
     else:
-        return request.POST[name]
+        return request.FILES[name]
