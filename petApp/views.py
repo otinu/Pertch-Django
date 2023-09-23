@@ -123,6 +123,27 @@ def edit(request, id):
     return render(request, "pet/edit.html", context={"pet": pet})
 
 
+def delete(request, id):
+    pet = get_one_pet(id)
+    if pet is None:
+        return render(
+            request,
+            "pet/index.html",
+            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
+        )
+
+    try:
+        pet.delete()
+        return redirect("/pet/index")
+    except Exception as e:
+        traceback.format_exc()
+        return render(
+            request,
+            "pet/index.html",
+            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
+        )
+
+
 def get_one_pet(id):
     try:
         return PetModel.objects.get(pk=id)

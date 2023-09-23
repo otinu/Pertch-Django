@@ -116,12 +116,11 @@
                     </td>
                     <td>
                         {% if pet.owner.id == user.id %}
-                        <form method="POST" th:action="@{/pet/delete}">
-                            <input type="hidden" id="delete" name="id" th:value="${pet.id}">
+                        <a href="{% url 'delete' pet.id %}">
                             <button type="submit" id="deleteBtn">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-                        </form>
+                        </a>
                         {% endif %}
                     </td>
                 </tr>
