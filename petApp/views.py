@@ -67,7 +67,16 @@ def new(request):
 
 
 def show(request, id):
-    pet = PetModel.objects.get(id=id)
+    try:
+        pet = PetModel.objects.get(pk=id)
+    except PetModel.DoesNotExist:
+        traceback.format_exc()
+        return render(
+            request,
+            "pet/index.html",
+            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
+        )
+
     pet_comment_list = pet.petcommentmodel_set.all()  # type: ignore
     return render(
         request,

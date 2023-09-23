@@ -12,20 +12,17 @@
 {% endblock header %}
 
 {% block main %}
-{% if error_message %}
-<script>alert("{{ error_message }}");</script>
-{% endif %}
 
 <div class="body-container">
 
     {% if insert_message %}
-    <p class="action-message">{{ insertMessage }}</p>
+    <p class="action-message">{{ insert_message }}</p>
     {% elif update_message %}
-    <p class="action-message">{{ updateMessage }}</p>
+    <p class="action-message">{{ update_message }}</p>
     {% elif delete_message %}
-    <p class="action-message">{{ deleteMessage }}</p>
+    <p class="action-message">{{ delete_message }}</p>
     {% elif error_message %}
-    <p class="alert-message">{{ errorMessage }}</p>
+    <p class="alert-message">{{ error_message }}</p>
     {% endif %}
 
     <h2 style="text-align: center;">
