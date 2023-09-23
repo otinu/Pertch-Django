@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/owner/show.css' %}">
+<link rel="stylesheet" href="{% static 'css/header.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+{% endblock extra_css %}
+
+{% block header %}
+{% include "_header.html" %}
+{% endblock header %}
+
+{% block main %}
+<div class="body-container">
+    <div></div>
+    <div id="owner-info-area">
+        <div></div>
+        <div id="name-area">
+            <i class="fa-solid fa-user fa-3x"></i>
+            <h2 id="owner-name">{{ owner.username }}</h2>
+        </div>
+        <div></div>
+        <p id="owner-contact">{{ owner.contact }}</p>
+        <div></div>
+        <p id="owner-contact">{{ owner.sub_contact }}</p>
+        <div></div>
+        <textarea readonly>{{ owner.message }}</textarea>
+    </div>
+
+    <div id="pet-card">
+        {% for pet in pet_list %}
+        {% if pet.image %}
+        <div></div>
+        <div class="l-wrapper_06">
+            <h2 style="margin: 0;">{{ pet.name }}</h2>
+            <div class="card_06">
+                <a id="pet-img" href="{% url 'show' pet.id %}">
+                    <img class="card-img_06" src="{{ pet.image.url }}">
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endblock main %}
+
+    {% block extra_javascript %}
+    <script src="{% static 'js/owner/show.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v6.2.1/js/all.js"></script>
+    {% endblock extra_javascript %}

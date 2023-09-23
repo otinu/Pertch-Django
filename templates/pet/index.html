@@ -103,7 +103,7 @@
                     <td>{{ pet.address }}</td>
                     <td>
                         <!-- ToDo Ownerとのリレーション設定後に修正 -->
-                        <a th:href="@{/owner/show/{id}(id=${pet.owner.id})}">{{ pet.owner.username }}</a>
+                        <a href="{% url 'detail' pet.owner.id %}">{{ pet.owner.username }}</a>
                     </td>
                     <td>
                         {% if pet.owner.id == user.id %}

@@ -117,6 +117,24 @@ def mypage(request):
     )
 
 
+def detail(request, id):
+    try:
+        owner = Owner.objects.get(pk=id)
+        pet_list = owner.petmodel_set.all()  # type: ignore
+        return render(
+            request,
+            "owner/show.html",
+            {"owner": owner, "pet_list": pet_list},
+        )
+    except Owner.DoesNotExist:
+        traceback.format_exc()
+        return render(
+            request,
+            "pet/index.html",
+            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
+        )
+
+
 def update(request):
     current_user = get_current_authenticated_user()
     owner = Owner.objects.get(id=current_user.id)  # type: ignore

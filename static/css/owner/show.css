@@ -1,0 +1,80 @@
+textarea {
+    resize: vertical;
+    max-width: 70%;
+    min-height: 100px;
+    max-height: 168px;
+    padding: 1% 2%;
+    font-size: large;
+    font-family: serif;
+}
+
+textarea:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.7px red inset;
+}
+
+textarea:hover {
+    cursor: default;
+}
+
+.body-container {
+    position: absolute;
+    top: 15vh;
+    width: 100%;
+    height: 100%;
+}
+
+#owner-info-area {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr 3fr;
+}
+
+#name-area {
+    display: flex;
+}
+
+#owner-name {
+    margin: auto 0 0 10px;
+}
+
+#owner-contact {
+    margin: 5px 0 0 0;
+}
+
+
+#pet-card {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+/*--------------------------------------
+    参考サイト
+    https://dubdesign.net/download/html-css/carddesign-6/
+  --------------------------------------*/
+.l-wrapper_06 {
+    width: 50%;
+    margin: 20px 0 10px 0;
+}
+
+.l-wrapper_06:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 7px 34px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
+    transition: all .5s;
+}
+
+.card_06 {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px #ccc;
+}
+
+.card_06:hover {
+    cursor: pointer;
+}
+
+.card-img_06 {
+    border-radius: 5px 0;
+    max-width: 100%;
+    height: auto;
+}

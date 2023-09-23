@@ -5,6 +5,7 @@ from ownerApp.views import (
     login_func,
     logout_func,
     mypage,
+    detail,
     update,
     delete,
 )
@@ -15,6 +16,7 @@ urlpatterns = [
     path("login/", login_func, name="login"),
     path("logout/", logout_func, name="logout"),
     path("mypage/", mypage, name="mypage"),
+    path("detail/<int:id>", detail, name="detail"),
     path("update/", update, name="update"),
     path("delete/", delete, name="delete"),
 ]
