@@ -25,7 +25,12 @@ def new(request):
         charmPoint = request.POST["charmPoint"]
         postCord = request.POST["postCord"]
         address = request.POST["address"]
-        image = request.FILES["upload_file"]
+
+        if ("upload_file", "") in request.POST.items():
+            # ペット登録時に画像なし ⇒ 明示的にNoneを埋め込む
+            image = None
+        else:
+            image = request.FILES["upload_file"]
 
         # created_at,updated_at用
         now = datetime.datetime.now()
