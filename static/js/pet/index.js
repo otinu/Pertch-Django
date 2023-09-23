@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         petShow.addEventListener('click', () => { petShow.submit() });
     });
 
-    const postCord = document.querySelector('#postCord');
+    const postCord = document.querySelector('#post-cord');
     // postCordAPI.jsのメソッド呼び出し
     postCord.addEventListener('input', getAddress);
 

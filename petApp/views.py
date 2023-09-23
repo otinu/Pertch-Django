@@ -23,8 +23,8 @@ def new(request):
             sex = True
         else:
             sex = False
-        charmPoint = request.POST.get("charmPoint")
-        postCord = request.POST.get("postCord")
+        charm_point = request.POST.get("charm-point")
+        post_cord = request.POST.get("post-cord")
         address = request.POST.get("address")
 
         image = get_media_or_empty(request, "upload_file")
@@ -41,8 +41,8 @@ def new(request):
                 name=name,
                 age=age,
                 sex=sex,
-                charmPoint=charmPoint,
-                postCord=postCord,
+                charm_point=charm_point,
+                post_cord=post_cord,
                 address=address,
                 image=image,
                 created_at=today,
@@ -90,8 +90,8 @@ def edit(request, id):
 
     if request.method == "POST":
         age = request.POST.get("age")
-        charmPoint = request.POST.get("charmPoint")
-        postCord = request.POST.get("postCord")
+        charm_point = request.POST.get("charm-point")
+        post_cord = request.POST.get("post-cord")
         address = request.POST.get("address")
 
         image = get_media_or_empty(request, "upload_file")
@@ -102,8 +102,8 @@ def edit(request, id):
 
         try:
             pet.age = age
-            pet.charmPoint = charmPoint
-            pet.postCord = postCord
+            pet.charm_point = charm_point
+            pet.post_cord = post_cord
             pet.address = address
             if image:
                 pet.image = image  # type: ignore

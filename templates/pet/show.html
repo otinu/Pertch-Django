@@ -45,9 +45,9 @@
             <!-- ToDo owner/showへのリンク -->
             <a id="owner-show-link" th:href="@{/owner/show/{id}(id=*{owner.id})}" th:text="*{owner.ownerName}"></a>
             <label>特徴</label>
-            <textarea readonly>{{ pet.charmPoint }}</textarea>
+            <textarea readonly>{{ pet.charm_point }}</textarea>
             <label>郵便番号</label>
-            <p>{{ pet.postCord }}</p>
+            <p>{{ pet.post_cord }}</p>
             <label>住所</label>
             <p>{{ pet.address }}</p>
         </form>
