@@ -94,7 +94,9 @@ def login_func(request):
         return render(request, "owner/login.html")
     elif separation_string == "abnormal":
         return render(
-            request, "owner/login.html", {"error_message": "予期せエラーが発生しました\n管理者にご確認ください"}
+            request,
+            "owner/login.html",
+            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
         )
     else:
         return redirect(separation_string)

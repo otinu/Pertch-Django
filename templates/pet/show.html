@@ -56,7 +56,8 @@
     <div id="eyewitness-area">
         <br>
         <h2 id="eye-witness-title">目撃情報</h2>
-        <table id="sort_table" border="1" th:unless="${#lists.isEmpty(petCommentList)}" style="table-layout: fixed;">
+        {% if pet_comment_list %}
+        <table id="sort_table" border="1" style="table-layout: fixed;">
             <colgroup>
                 <col width="10%">
                 <col width="30%">
@@ -67,25 +68,29 @@
                 <th class="eyewitness-table-header1">場所&nbsp;<i class="fa fa-sort"></i></th>
                 <th class="eyewitness-table-header1">情報&nbsp;<i class="fa fa-sort"></i></th>
             </tr>
-            <tr th:each="petComment : ${petCommentList}" align="center">
-                <td th:text="${petComment.eventTime}" class="show-eventTime"></td>
-                <td th:text="${petComment.eventPlace}"></td>
-                <td th:text="${petComment.eventInformation}"></td>
+            {% for pet_comment in pet_comment_list %}
+            <tr align="center">
+                <td class="show-eventTime">{{ pet_comment.event_time }}</td>
+                <td>{{ pet_comment.event_place }}</td>
+                <td>{{ pet_comment.event_information }}</td>
             </tr>
+            {% endfor %}
         </table>
+        {% endif %}
 
-        <form method="POST" id="eyewitness-posing-area" th:action="@{/petComment/insert}" th:object="${petCommentForm}">
+        <form method="post" id="eyewitness-posing-area" action="{% url 'pet_comment:new' %}">
+            {% csrf_token %}
             <div></div>
             <label class="eyewitness-label">日時</label><br>
-            <input type="datetime-local" class="event-text" th:field="*{eventTime}" required></input>
+            <input type="datetime-local" class="event-text" name="event-time" required></input>
             <div></div>
             <label class="eyewitness-label">場所</label><br>
-            <input type="text" class="event-text" th:field="*{eventPlace}" required></input>
+            <input type="text" class="event-text" name="event-place" required></input>
             <div></div>
             <label class="eyewitness-label">情報</label><br>
-            <textarea class="event-textarea" th:field="*{eventInformation}" required></textarea>
+            <textarea class="event-textarea" name="event-information" required></textarea>
 
-            <input type="hidden" name="petId" th:value="${petId}">
+            <input type="hidden" name="pet-id" value="{{ pet.id }}">
             <input type="submit" id="eyewitness-button" value="投稿">
         </form>
 

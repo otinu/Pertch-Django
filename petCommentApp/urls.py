@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import testfunc
+from .views import new
 
-urlpatterns = [
-    path('test/', testfunc, name='test')
-]
+app_name = "pet_comment"
+urlpatterns = [path("new/", new, name="new")]

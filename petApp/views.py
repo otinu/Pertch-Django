@@ -5,7 +5,8 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
 
-from .models import PetModel
+from petApp.models import PetModel
+from petCommentApp.models import PetCommentModel
 
 
 def index(request):
@@ -67,4 +68,9 @@ def new(request):
 
 def show(request, id):
     pet = PetModel.objects.get(id=id)
-    return render(request, "pet/show.html", context={"pet": pet})
+    pet_comment_list = pet.petcommentmodel_set.all()  # type: ignore
+    return render(
+        request,
+        "pet/show.html",
+        context={"pet": pet, "pet_comment_list": pet_comment_list},
+    )
