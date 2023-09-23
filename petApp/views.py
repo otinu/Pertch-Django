@@ -2,6 +2,7 @@ import datetime
 import traceback
 
 from django.db import IntegrityError
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
 
@@ -141,6 +142,47 @@ def delete(request, id):
             "pet/index.html",
             {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
         )
+
+
+def search(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        age = request.POST.get("age")
+        sex_string = request.POST.get("sex")
+        if sex_string:
+            sex = True
+        else:
+            sex = False
+        charm_point = request.POST.get("charm-point")
+        post_cord = request.POST.get("post-cord")
+        address = request.POST.get("address")
+        owner = request.POST.get("owner")
+
+        # 検索実行
+        list = PetModel.objects
+        if name:
+            list = list.filter(name__icontains=name)
+        if age:
+            list = list.filter(age=age)
+        if sex:
+            list = list.filter(sex=sex)
+        if charm_point:
+            list = list.filter(charm_point__icontains=charm_point)
+        if post_cord:
+            list = list.filter(post_cord=post_cord)
+        if address:
+            list = list.filter(address__icontains=address)
+        if owner:
+            list = list.filter(owner__username=owner)
+
+        if type(list) == QuerySet:
+            return render(request, "pet/index.html", {"list": list})
+        else:
+            return render(request, "pet/index.html", {"search_message": "検索結果は0件でした"})
+
+    return render(
+        request, "pet/index.html", {"search_message": "予期せぬエラーが発生しました\n管理者にご確認ください"}
+    )
 
 
 def get_one_pet(id):

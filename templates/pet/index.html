@@ -29,31 +29,32 @@
         <i class="fa-solid fa-magnifying-glass-location fa-2x"></i> ペット一覧
     </h2>
 
-    {% if insert_message %}
-    <div class="h4">{{ search_message }}</div>
+    {% if search_message %}
+    <h4>{{ search_message }}</h4>
     {% endif %}
 
-    <form id="search" method="POST" th:action="@{/pet/search}" th:object="${petForm}" enctype="multipart/form-data">
+    <form id="search" method="post" action="{% url 'search' %}">
+        {% csrf_token %}
         <div class="search-inputarea">
             <div class="search-first-inputarea">
                 <label>ペット名</label>
-                <input type=text th:field="*{name}">
+                <input type=text name="name">
                 <label>年齢</label>
-                <input type="number" class="search-input-age" th:field="*{age}">
+                <input type="number" class="search-input-age" name="age">
                 <label>性別</label>
-                <input type="radio" value="true" th:field="*{sex}">♂
-                <input type="radio" value="false" th:field="*{sex}">♀
+                <input type="radio" value="true" name="sex">♂
+                <input type="radio" value="false" name="sex">♀
                 <label>特徴</label>
-                <input type=text th:field="*{charmPoint}"></input>
+                <input type=text name="charm-point"></input>
             </div>
             <div class="search-second-inputarea">
 
                 <label>郵便番号</label>
-                <input id="postCord" type=text th:field="*{postCord}">
+                <input id="postCord" type=text name="post-cord">
                 <label>住所</label>
-                <input id="address" type=text th:field="*{address}">
+                <input id="address" type=text name="address">
                 <label>飼い主</label>
-                <input type=text th:field="*{owner}">
+                <input type=text name="owner">
             </div>
             <div>
                 <input type="submit" class="submit-button" value="検索">
@@ -98,8 +99,8 @@
                     {% else %}
                     <td style="text-align: center;">♀</td>
                     {% endif %}
-                    <td>{{ pet.charmPoint }}</td>
-                    <td>{{ pet.postCord }}</td>
+                    <td>{{ pet.charm_point }}</td>
+                    <td>{{ pet.post_cord }}</td>
                     <td>{{ pet.address }}</td>
                     <td>
                         <!-- ToDo Ownerとのリレーション設定後に修正 -->

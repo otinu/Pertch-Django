@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import index, new, show, edit, delete
+from .views import index, new, show, edit, delete, search
 
 urlpatterns = [
     path("index/", index, name="index"),
@@ -7,5 +7,6 @@ urlpatterns = [
     path("show/<int:id>", show, name="show"),
     path("edit/<int:id>", edit, name="edit"),
     path("delete/<int:id>", delete, name="delete"),
+    path("search/", search, name="search"),
     path("petComment/", include("petCommentApp.urls")),
 ]

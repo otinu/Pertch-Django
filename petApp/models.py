@@ -21,11 +21,11 @@ class PetModel(models.Model):
     # 性別
     sex = models.BooleanField()
     # 特徴
-    charmPoint = models.CharField(max_length=1000)
+    charm_point = models.CharField(max_length=1000)
     # 郵便番号
     # ToDo 住所のバリデーション(正規表現)
     # ToDo 7文字ちょうどを指定したい
-    postCord = models.CharField(validators=[MinLengthValidator(7)], max_length=8)
+    post_cord = models.CharField(validators=[MinLengthValidator(7)], max_length=8)
     # 住所
     address = models.CharField(max_length=50)
     # 写真
