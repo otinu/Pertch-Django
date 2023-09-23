@@ -80,7 +80,6 @@ def show(request, id):
 
 
 def edit(request, id):
-    """
     pet = get_one_pet(id)
     if pet is None:
         return render(
@@ -90,16 +89,10 @@ def edit(request, id):
         )
 
     if request.method == "POST":
-        name = request.POST["name"]
-        age = request.POST["age"]
-        sex_string = request.POST["sex"]
-        if sex_string:
-            sex = True
-        else:
-            sex = False
-        charmPoint = request.POST["charmPoint"]
-        postCord = request.POST["postCord"]
-        address = request.POST["address"]
+        age = get_value_or_empty(request, "age")
+        charmPoint = get_value_or_empty(request, "charmPoint")
+        postCord = get_value_or_empty(request, "postCord")
+        address = get_value_or_empty(request, "address")
 
         image = get_value_or_empty(request, "upload_file")
 
@@ -111,20 +104,13 @@ def edit(request, id):
         owner = get_current_authenticated_user()
 
         try:
-            PetModel.objects.create(
-                name=name,
-                age=age,
-                sex=sex,
-                charmPoint=charmPoint,
-                postCord=postCord,
-                address=address,
-                image=image,
-                created_at=today,
-                updated_at=today,
-                owner=owner,
-            )
+            pet.age = age
+            pet.charmPoint = charmPoint
+            pet.postCord = postCord
+            pet.address = address
+            pet.save()
             return redirect("/pet/index")
-        except IntegrityError as e:
+        except Exception as e:
             traceback.format_exc()
 
             # ToDo バリデーションメッセージの確認
@@ -135,7 +121,6 @@ def edit(request, id):
             )
 
     return render(request, "pet/edit.html", context={"pet": pet})
-    """
 
 
 def get_one_pet(id):

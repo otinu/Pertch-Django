@@ -107,11 +107,11 @@
                     </td>
                     <td>
                         {% if pet.owner.id == user.id %}
-                        <form method="POST" th:action="@{/pet/edit/{id}(id=${pet.id})}">
+                        <a href="{% url 'edit' pet.id %}">
                             <button type="submit">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                        </form>
+                        </a>
                         {% endif %}
                     </td>
                     <td>
