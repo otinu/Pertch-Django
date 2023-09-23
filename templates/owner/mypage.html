@@ -27,7 +27,8 @@
             </div>
 
             <div>
-                <form method="POST" th:action="@{/owner/delete}">
+                <form method="post" action="{% url 'delete' %}">
+                    {% csrf_token %}
                     <input type="submit" class="deleteBtn" value="退会">
                 </form>
             </div>
@@ -47,11 +48,7 @@
             <textarea class="owner-message" name="owner-message">{{ owner.message }}</textarea><br>
             <input type="submit" class="submit-button" value="更新">
         </form>
-
     </div>
-
-
-
     {% endblock main %}
 
     {% block extra_javascript %}

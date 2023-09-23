@@ -142,6 +142,22 @@ def update(request):
     )
 
 
+def delete(request):
+    current_user = get_current_authenticated_user()
+    owner = Owner.objects.get(id=current_user.id)  # type: ignore
+    try:
+        owner.delete()
+        logout(request)
+        return redirect("/owner/top")
+    except Exception as e:
+        traceback.format_exc()
+        return render(
+            request,
+            "owner/mypage.html",
+            {"owner": owner, "error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
+        )
+
+
 def screen_separation(request):
     try:
         next_url = request.GET["hidden_value"]
