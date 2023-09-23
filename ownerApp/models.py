@@ -5,20 +5,27 @@ from django.contrib.auth.models import AbstractUser
 
 # Djangoのログイン(認証)機能を使えるよう、AbstractUserを継承
 class Owner(AbstractUser, models.Model):
-    class Meta:
-        db_table = "owner"
-
-    username = models.CharField(max_length=20, unique=True)
-    password = models.TextField()
-    message = models.TextField()
-    contact = models.EmailField(max_length=30, unique=True)
-    sub_contact = models.CharField(max_length=30)
-
-    now = datetime.datetime.now()
-    created_at = models.DateTimeField(default=now)
-    updated_at = models.DateTimeField(default=now)
-
     USERNAME_FIELD = "username"
 
     # superuserを作る際、入力に含める
     REQUIRED_FIELDS = ["contact", "created_at", "updated_at"]
+
+    class Meta:
+        db_table = "owner"
+
+    # ユーザー名(飼い主名)
+    username = models.CharField(max_length=20, unique=True)
+    # パスワード
+    password = models.TextField()
+    # 目撃者へのメッセージ
+    message = models.TextField()
+    # 連絡先
+    contact = models.EmailField(max_length=30, unique=True)
+    # 連絡先（予備）
+    sub_contact = models.CharField(max_length=30)
+
+    now = datetime.datetime.now()
+    # 登録日時
+    created_at = models.DateTimeField(default=now)
+    # 更新日時
+    updated_at = models.DateTimeField(default=now)
