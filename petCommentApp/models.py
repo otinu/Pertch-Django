@@ -11,7 +11,9 @@ class PetCommentModel(models.Model):
         db_table = "pet_comment"
 
     # 時間
-    event_time = models.CharField(validators=[MinLengthValidator(16)], max_length=18)
+    # event_time = models.CharField(validators=[MinLengthValidator(16)], max_length=20)
+    event_time = models.DateTimeField()
+
     # 場所
     event_place = models.CharField(max_length=80)
     # 情報
@@ -19,9 +21,9 @@ class PetCommentModel(models.Model):
 
     now = datetime.datetime.now()
     # 登録日時
-    created_at = models.DateTimeField(default=now)
+    created_at = models.DateTimeField()
     # 更新日時
-    updated_at = models.DateTimeField(default=now)
+    updated_at = models.DateTimeField()
 
     # Pet:PetComment で 1:N の関係
     pet = models.ForeignKey(PetModel, on_delete=models.CASCADE)

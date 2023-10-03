@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
 
 from petApp.models import PetModel
+from petCommentApp.forms import PetCommentForm
 
 
 def index(request):
@@ -72,10 +73,11 @@ def show(request, id):
         )
 
     pet_comment_list = pet.petcommentmodel_set.all()  # type: ignore
+    form = PetCommentForm()
     return render(
         request,
         "pet/show.html",
-        context={"pet": pet, "pet_comment_list": pet_comment_list},
+        context={"pet": pet, "pet_comment_list": pet_comment_list, "form": form},
     )
 
 

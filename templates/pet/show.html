@@ -78,19 +78,45 @@
         </table>
         {% endif %}
 
+        <!--
         <form method="post" id="eyewitness-posing-area" action="{% url 'pet_comment:new' %}">
             {% csrf_token %}
             <div></div>
             <label class="eyewitness-label">日時</label><br>
-            <input type="datetime-local" class="event-text" name="event-time" required></input>
+            <input type="datetime-local" class="event-text" name="event-time"></input>
             <div></div>
             <label class="eyewitness-label">場所</label><br>
-            <input type="text" class="event-text" name="event-place" required></input>
+            <input type="text" class="event-text" name="event-place"></input>
             <div></div>
             <label class="eyewitness-label">情報</label><br>
-            <textarea class="event-textarea" name="event-information" required></textarea>
+            <textarea class="event-textarea" name="event-information"></textarea>
 
             <input type="hidden" name="pet-id" value="{{ pet.id }}">
+            <input type="submit" id="eyewitness-button" value="投稿">
+        </form>
+        -->
+        {% for field in form %}
+        <div>
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <div class="error-feedback">{{ error }}</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+        <form method="post" id="eyewitness-posing-area" action="{% url 'pet_comment:new' %}">
+            {% csrf_token %}
+            <label class="eyewitness-label">日時</label><br>
+            <input type="datetime-local" class="event-text" name="event_time"></input>
+            <div></div>
+            <label class="eyewitness-label">場所</label><br>
+            {{ form.event_place }}
+            <div></div>
+            <label class="eyewitness-label">情報</label><br>
+            {{ form.event_information }}
+            <div></div>
+
+            <input type="hidden" name="pet_id" value="{{ pet.id }}">
             <input type="submit" id="eyewitness-button" value="投稿">
         </form>
 
