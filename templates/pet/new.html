@@ -34,18 +34,21 @@
             {% endif %}
 
             <label>名前</label>
-            <input type=text id="name" name="name" required>
+            <!-- <input type=text id="name" name="name" required> -->
+            {{ form.name }}
 
             <div class="mix-area">
 
                 <div class="age-area">
                     <label>年齢</label>
-                    <input type="number" id="age" name="age" required>
+                    <!-- <input type="number" id="age" name="age" required> -->
+                    {{ form.age }}
                 </div>
 
                 <div class="gender-area">
                     <label>性別&nbsp;</label>
                     <br>
+                    <!--
                     <div class="radio-button">
                         &nbsp;
                         <input type="radio" value="true" name="sex" required>
@@ -56,10 +59,18 @@
                         <input type="radio" value="false" name="sex">
                         ♀
                     </div>
+                    -->
+                    {% for field in form.sex %}
+                    <div class="radio-button">
+                        {{ field }}
+                        &nbsp;
+                    </div>
+                    {% endfor %}
                 </div>
                 <div class="image-area">
                     <label class="file-label">
-                        <input type="file" name="upload_file">
+                        <!-- <input type="file" name="upload_file"> -->
+                        {{ form.image }}
                         ペットの写真
                     </label>
                     <small>&nbsp;未選択</small>
@@ -67,11 +78,14 @@
 
             </div>
             <label>特徴</label>
-            <textarea type=text name="charm-point"></textarea>
+            <!-- <textarea type=text name="charm-point"></textarea> -->
+            {{ form.charm_point }}
             <label>郵便番号</label>
-            <input type=text id="post-cord" name="post-cord">
+            <!-- <input type=text id="post-cord" name="post-cord"> -->
+            {{ form.post_cord }}
             <label>住所</label>
-            <input type=text id="address" name="address">
+            <!-- <input type=text id="address" name="address"> -->
+            {{ form.address }}
 
             <input type="submit" value="登録">
         </form>

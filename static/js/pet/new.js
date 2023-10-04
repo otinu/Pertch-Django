@@ -1,5 +1,5 @@
-const file = document.body.querySelector('[name="upload_file"]');
-let uploadFile = document.body.querySelector("[name='upload_file']").files
+const file = document.body.querySelector('[name="image"]');
+let uploadFile = document.body.querySelector("[name='image']").files
 let fileLabel = document.body.querySelector(".file-label");
 let cancelButton;
 
@@ -10,7 +10,8 @@ function changeFileForm() {
             fileLabel.nextElementSibling.innerHTML = fileLabel.nextElementSibling.innerHTML.replace("未選択", "<i class='fa-solid fa-circle-xmark' style='color: deeppink;'></i>選択済");
             fileLabel.append(tmpUploadFile);
 
-            cancelButton = document.body.querySelector(".fa-circle-xmark");
+            // cancelButton = document.body.querySelector(".fa-circle-xmark");
+            cancelButton = document.body.querySelector("small"); // FontAwesomeの仕様変更か SVGタグに変更されたため、微修正
             resolve(cancelButton)
         })
     });
