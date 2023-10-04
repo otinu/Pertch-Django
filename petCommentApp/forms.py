@@ -1,8 +1,5 @@
-from datetime import datetime
-
 from django import forms
-from .models import PetModel, PetCommentModel
-from django.utils import timezone
+from .models import PetCommentModel
 
 
 class PetCommentForm(forms.ModelForm):
