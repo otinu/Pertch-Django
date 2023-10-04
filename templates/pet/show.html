@@ -13,6 +13,14 @@
 
 {% block main %}
 
+
+
+{% if messages %}
+{% for message in messages %}
+<script>alert("{{ message }}");</script>
+{% endfor %}
+{% endif %}
+
 <div class="body-container">
 
     <div class="form-container">
@@ -78,15 +86,6 @@
         </table>
         {% endif %}
 
-        {% for field in form %}
-        <div>
-            {% if field.errors %}
-            {% for error in field.errors %}
-            <div class="error-feedback">{{ error }}</div>
-            {% endfor %}
-            {% endif %}
-        </div>
-        {% endfor %}
         <form method="post" id="eyewitness-posing-area" action="{% url 'pet_comment:new' %}">
             {% csrf_token %}
             <label class="eyewitness-label">日時</label><br>

@@ -15,14 +15,16 @@
 
 <div class="body-container">
 
-    {% if insert_message %}
-    <p class="action-message">{{ insert_message }}</p>
-    {% elif update_message %}
-    <p class="action-message">{{ update_message }}</p>
-    {% elif delete_message %}
-    <p class="action-message">{{ delete_message }}</p>
-    {% elif error_message %}
-    <p class="alert-message">{{ error_message }}</p>
+    {% if messages %}
+    {% for message in messages %}
+
+    {% if message.tags == "error" %}
+    <p class="alert-message">{{ message }}</p>
+    {% else %}
+    <p class="action-message">{{ message }}</p>
+    {% endif %}
+
+    {% endfor %}
     {% endif %}
 
     <h2 style="text-align: center;">
