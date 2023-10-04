@@ -70,7 +70,7 @@
             </tr>
             {% for pet_comment in pet_comment_list %}
             <tr align="center">
-                <td class="show-eventTime">{{ pet_comment.event_time }}</td>
+                <td class="show-eventTime">{{ pet_comment.event_time|date:"Y/m/j H:i" }}</td>
                 <td>{{ pet_comment.event_place }}</td>
                 <td>{{ pet_comment.event_information }}</td>
             </tr>
@@ -78,23 +78,6 @@
         </table>
         {% endif %}
 
-        <!--
-        <form method="post" id="eyewitness-posing-area" action="{% url 'pet_comment:new' %}">
-            {% csrf_token %}
-            <div></div>
-            <label class="eyewitness-label">日時</label><br>
-            <input type="datetime-local" class="event-text" name="event-time"></input>
-            <div></div>
-            <label class="eyewitness-label">場所</label><br>
-            <input type="text" class="event-text" name="event-place"></input>
-            <div></div>
-            <label class="eyewitness-label">情報</label><br>
-            <textarea class="event-textarea" name="event-information"></textarea>
-
-            <input type="hidden" name="pet-id" value="{{ pet.id }}">
-            <input type="submit" id="eyewitness-button" value="投稿">
-        </form>
-        -->
         {% for field in form %}
         <div>
             {% if field.errors %}
@@ -107,7 +90,7 @@
         <form method="post" id="eyewitness-posing-area" action="{% url 'pet_comment:new' %}">
             {% csrf_token %}
             <label class="eyewitness-label">日時</label><br>
-            <input type="datetime-local" class="event-text" name="event_time"></input>
+            {{ form.event_time }}
             <div></div>
             <label class="eyewitness-label">場所</label><br>
             {{ form.event_place }}
