@@ -24,9 +24,7 @@ class PetModel(models.Model):
     # 特徴
     charm_point = models.CharField(max_length=1000)
     # 郵便番号
-    post_cord = models.IntegerField(
-        validators=[MinValueValidator(7), MaxValueValidator(7)]
-    )
+    post_cord = models.IntegerField(validators=[MaxValueValidator(9999999)])
     # 住所
     address = models.CharField(max_length=50)
     # 写真

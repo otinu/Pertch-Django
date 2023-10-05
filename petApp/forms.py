@@ -42,9 +42,9 @@ class PetForm(forms.ModelForm):
 
     post_cord = forms.IntegerField(
         label="郵便番号",
-        min_value=7,
-        max_value=7,
-        widget=forms.NumberInput(attrs={"id": "post-cord"}),
+        widget=forms.NumberInput(
+            attrs={"id": "post-cord", "placeholder": "7桁でご入力ください"}
+        ),
     )
 
     address = forms.CharField(
@@ -60,3 +60,9 @@ class PetForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def clean_post_cord(self):
+        post_cord = self.cleaned_data["post_cord"]
+        if len(str(post_cord)) != 7:
+            raise forms.ValidationError("エラーが発生しました。郵便番号は7桁でご入力ください")
+        return post_cord

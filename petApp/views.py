@@ -1,7 +1,6 @@
 from datetime import datetime
 import traceback
 
-from django.db import IntegrityError
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
@@ -21,7 +20,11 @@ def new(request):
     if request.method == "POST":
         form = PetForm(request.POST, request.FILES)
         if not form.is_valid():
-            messages.error(request, "ご入力の際にエラーが発生しました。管理者にご確認ください")
+            # clean_post_cord()でバリデーションにかかった場合
+            if form.errors["post_cord"]:
+                messages.error(request, form.errors["post_cord"][0])
+            else:
+                messages.error(request, "ご入力の際にエラーが発生しました。管理者にご確認ください")
             return redirect("/pet/new/")
 
         pet = form.save(commit=False)
@@ -100,6 +103,7 @@ def edit(request, id):
                 {"error_message": "ペット登録に問題が発生しました"},
             )
 
+    # pet = PetCommentForm(instance=pet)
     return render(request, "pet/edit.html", context={"pet": pet})
 
 
