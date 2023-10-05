@@ -10,6 +10,7 @@ from ownerApp.views import (
     delete,
 )
 
+app_name = "owner"
 urlpatterns = [
     path("top/", top, name="top"),
     path("registration/", registration, name="registration"),

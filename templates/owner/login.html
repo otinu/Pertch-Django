@@ -32,11 +32,11 @@
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">ログイン</button>
         </form>
         <form class="form-signin" method="get">
-            <input type="hidden" name="hidden_value" value="registration" action="{% url 'registration' %}">
+            <input type="hidden" name="hidden_value" value="registration" action="{% url 'owner:registration' %}">
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">登録</button>
         </form>
         <form class="form-signin" method="get">
-            <input type="hidden" name="hidden_value" value="top" action="{% url 'top' %}">
+            <input type="hidden" name="hidden_value" value="top" action="{% url 'owner:top' %}">
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">TOP</button>
         </form>
     </div>

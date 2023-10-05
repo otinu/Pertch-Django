@@ -12,8 +12,10 @@
 {% endblock header %}
 
 {% block main %}
-{% if error_message %}
-<script>alert("{{ error_message }}");</script>
+{% if messages %}
+{% for message in messages %}
+<script>alert("{{ message }}");</script>
+{% endfor %}
 {% endif %}
 
 <div class="body-container">
@@ -27,7 +29,7 @@
             </div>
 
             <div>
-                <form method="post" action="{% url 'delete' %}">
+                <form method="post" action="{% url 'owner:delete' %}">
                     {% csrf_token %}
                     <input type="submit" class="deleteBtn" value="退会">
                 </form>
@@ -35,7 +37,7 @@
         </div>
         <div></div>
 
-        <form method="post" action="{% url 'update' %}">
+        <form method="post" action="{% url 'owner:update' %}">
             {% csrf_token %}
             <div></div>
             <label>連絡先1</label><br>

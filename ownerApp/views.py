@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
 from django.db import IntegrityError
+from django.contrib import messages
 
 from .forms import registration_form
 from .models import Owner
@@ -123,7 +124,7 @@ def detail(request, id):
         pet_list = owner.petmodel_set.all()  # type: ignore
         return render(
             request,
-            "owner/show.html",
+            "owner/detail.html",
             {"owner": owner, "pet_list": pet_list},
         )
     except Owner.DoesNotExist:
@@ -153,11 +154,8 @@ def update(request):
             {"owner": owner, "error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
         )
 
-    return render(
-        request,
-        "owner/mypage.html",
-        {"owner": owner, "update_message": "更新が完了しました"},
-    )
+    messages.success(request, "マイページ情報の更新が完了しました")
+    return redirect("/owner/mypage")
 
 
 def delete(request):
@@ -179,7 +177,7 @@ def delete(request):
 def screen_separation(request):
     try:
         next_url = request.GET["hidden_value"]
-        return next_url
+        return "/owner/" + next_url
     except KeyError as e:
         error_message = traceback.format_exception_only(type(e), e)[0]
         if "django.utils.datastructures.MultiValueDictKeyError" in error_message:

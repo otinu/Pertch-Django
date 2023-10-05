@@ -18,7 +18,7 @@
             <a href="/owner/mypage"><i class="fa-solid fa-user fa-2x"></i> マイページ</a>
         </h2>
         <h2>
-            <form id="logout" sec:authorize="authenticated" method="post" action="{% url 'logout' %}">
+            <form id="logout" sec:authorize="authenticated" method="post" action="{% url 'owner:logout' %}">
                 {% csrf_token %}
                 <a href="#"><i class="fa-solid fa-door-open fa-2x"></i> ログアウト</a>
             </form>
