@@ -56,6 +56,12 @@ textarea,
     margin-bottom: 3%;
 }
 
+#post-cord::-webkit-outer-spin-button,
+#post-cord::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    margin: 0;
+}
 
 input[type="text"]:hover,
 input[type="number"]:hover,

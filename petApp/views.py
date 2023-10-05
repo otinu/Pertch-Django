@@ -1,12 +1,14 @@
-import datetime
+from datetime import datetime
 import traceback
 
 from django.db import IntegrityError
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
+from django.contrib import messages
 
 from petApp.models import PetModel
+from petApp.forms import PetForm
 from petCommentApp.forms import PetCommentForm
 
 
@@ -17,50 +19,26 @@ def index(request):
 
 def new(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        age = request.POST.get("age")
-        sex_string = request.POST.get("sex")
-        if sex_string:
-            sex = True
-        else:
-            sex = False
-        charm_point = request.POST.get("charm-point")
-        post_cord = request.POST.get("post-cord")
-        address = request.POST.get("address")
+        form = PetForm(request.POST, request.FILES)
+        if not form.is_valid():
+            messages.error(request, "ご入力の際にエラーが発生しました。管理者にご確認ください")
+            return redirect("/pet/new/")
 
-        image = get_media_or_empty(request, "upload_file")
+        pet = form.save(commit=False)
 
-        # created_at,updated_at用
-        now = datetime.datetime.now()
+        now = datetime.now()
         today = now.strftime("%Y-%m-%d")
 
-        # ログインユーザーとPetの投稿を紐づけ
-        owner = get_current_authenticated_user()
+        pet.created_at = today
+        pet.updated_at = today
+        pet.owner = get_current_authenticated_user()
 
-        try:
-            PetModel.objects.create(
-                name=name,
-                age=age,
-                sex=sex,
-                charm_point=charm_point,
-                post_cord=post_cord,
-                address=address,
-                image=image,
-                created_at=today,
-                updated_at=today,
-                owner=owner,
-            )
-            return redirect("/pet/index")
-        except IntegrityError as e:
-            traceback.format_exc()
+        pet.save()
+        messages.success(request, "ペットの登録が完了しました")
+        return redirect("/pet/index")
 
-            # ToDo バリデーションメッセージの確認
-            return render(
-                request,
-                "pet/new.html",
-                {"error_messages": "ペット登録に問題が発生しました"},
-            )
-    return render(request, "pet/new.html")
+    form = PetForm()
+    return render(request, "pet/new.html", context={"form": form})
 
 
 def show(request, id):
@@ -99,7 +77,7 @@ def edit(request, id):
         image = get_media_or_empty(request, "upload_file")
 
         # created_at,updated_at用
-        now = datetime.datetime.now()
+        now = datetime.now()
         today = now.strftime("%Y-%m-%d")
 
         try:
@@ -191,7 +169,7 @@ def get_one_pet(id):
     try:
         return PetModel.objects.get(pk=id)
     except PetModel.DoesNotExist:
-        traceback.format_exc()
+        print(traceback.format_exc())
         return None
 
 
