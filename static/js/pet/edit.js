@@ -1,5 +1,5 @@
-const file = document.body.querySelector('[name="upload_file"]');
-let uploadFile = document.body.querySelector("[name='upload_file']").files
+const file = document.body.querySelector('[id="pet-image"]');
+let uploadFile = document.body.querySelector("[id='pet-image']").files
 let fileLabel = document.body.querySelector(".file-label");
 let cancelButton;
 

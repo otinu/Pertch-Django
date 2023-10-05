@@ -95,6 +95,10 @@ textarea,
     box-shadow: 2px 2px 0 rgb(0 0 0 / 10%);
 }
 
+#name {
+    text-align: center;
+}
+
 #pet-image {
     width: 200px;
     height: 200px;

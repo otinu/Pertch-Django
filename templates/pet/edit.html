@@ -13,34 +13,32 @@
 
 {% block main %}
 
+{% if messages %}
+{% for message in messages %}
+<script>alert("{{ message }}");</script>
+{% endfor %}
+{% endif %}
+
 <div class="body-container">
 
     <div class="form-container">
 
-        <form id="pet-edit" method="post" action="{% url 'edit' pet.id %}" enctype="multipart/form-data">
+        <form id="pet-edit" method="post" action="{% url 'edit' pet_id %}" enctype="multipart/form-data">
             {% csrf_token %}
 
-            {% if error_message %}
-            {% for error_message in error_message_list %}
-            <li>{{ error_message }}</li>
-            {% endfor %}
-            {% endif %}
-
-            <h2 name="name" style="text-align: center;">{{ pet.name }}</h2>
-            {% if pet.image %}
-            <img id="pet-image" src="{{ pet.image.url }}">{# pet.image はNG #}
-            {% else %}
-            <img id="pet-image" src="{% static '/image/no-image.png' %}">
-            {% endif %}
+            <h2 name="name" readonly>{{ form.name }}</h2>
+            <img id="pet-image" src="{{ pet_image_url }}">
 
             <div class="mix-area">
                 <div class="age-area">
                     <label>年齢</label>
-                    <input type="number" id="age" name="age" value="{{ pet.age }}" required>
+                    <!-- <input type="number" id="age" name="age" value="{{ form.age }}" required> -->
+                    {{ form.age }}
                 </div>
+                
                 <div class="gender-area">
                     <label>性別&nbsp;</label>
-                    {% if pet.sex %}
+                    {% if form.sex.value %}
                     <p>♂</p>
                     {% else %}
                     <p>♀</p>
@@ -49,7 +47,7 @@
 
                 <div class="image-area">
                     <label class="file-label">
-                        <input type="file" name="upload_file">
+                        {{ form.image }}
                         ペットの写真
                     </label>
                     <small>&nbsp;未選択</small>
@@ -57,15 +55,16 @@
             </div>
 
             <label>特徴</label>
-            <textarea name="charm-point">{{ pet.charm_point }}</textarea>
+            <!-- <textarea name="charm-point">{{ form.charm_point }}</textarea> -->
+            {{ form.charm_point }}
             <label>郵便番号</label>
-            <input type=text id="post-cord" name="post-cord" value="{{ pet.post_cord }}">
+            <!-- <input type=text id="post-cord" name="post-cord" value="{{ form.post_cord }}"> -->
+            {{ form.post_cord }}
             <label>住所</label>
-            <input type=text id="address" name="address" value="{{ pet.address }}">
+            <!-- <input type=text id="address" name="address" value="{{ form.address }}"> -->
+            {{ form.address }}
 
-            <input type="hidden" name="id" value="{{ id }}">
-            <input type="hidden" name="sex" value="{{ sex }}">
-
+            <input type="hidden" name="id" value="{{ pet_id }}">
             <input type="submit" value="更新">
 
         </form>

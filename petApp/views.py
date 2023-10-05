@@ -21,7 +21,7 @@ def new(request):
         form = PetForm(request.POST, request.FILES)
         if not form.is_valid():
             # clean_post_cord()でバリデーションにかかった場合
-            if form.errors["post_cord"]:
+            if "post_cord" in form.errors:
                 messages.error(request, form.errors["post_cord"][0])
             else:
                 messages.error(request, "ご入力の際にエラーが発生しました。管理者にご確認ください")
@@ -72,39 +72,44 @@ def edit(request, id):
         )
 
     if request.method == "POST":
-        age = request.POST.get("age")
-        charm_point = request.POST.get("charm-point")
-        post_cord = request.POST.get("post-cord")
-        address = request.POST.get("address")
+        form = PetForm(request.POST, request.FILES)
+        if not form.is_valid():
+            # clean_post_cord()でバリデーションにかかった場合
+            if "post_cord" in form.errors:
+                messages.error(request, form.errors["post_cord"][0])
+            else:
+                messages.error(request, "ご入力の際にエラーが発生しました。管理者にご確認ください")
+            return redirect("edit", id=id)
 
-        image = get_media_or_empty(request, "upload_file")
+        edit_pet = form.save(commit=False)
 
-        # created_at,updated_at用
+        # 写真が未選択の場合、更新前の写真を設定
+        if len(request.FILES) == 0:
+            edit_pet.image = pet.image
+
         now = datetime.now()
         today = now.strftime("%Y-%m-%d")
 
-        try:
-            pet.age = age
-            pet.charm_point = charm_point
-            pet.post_cord = post_cord
-            pet.address = address
-            if image:
-                pet.image = image  # type: ignore
-            pet.updated_at = today  # type: ignore
-            pet.save()
-            return redirect("/pet/index")
-        except Exception as e:
-            traceback.format_exc()
+        edit_pet.updated_at = today
+        edit_pet.owner = get_current_authenticated_user()
 
-            # ToDo バリデーションメッセージの確認
-            return render(
-                request,
-                "pet/new.html",
-                {"error_message": "ペット登録に問題が発生しました"},
-            )
+        edit_pet.save()
+        pet.delete()  # save()完了後、更新前のデータは削除
+        messages.success(request, "ペットの更新が完了しました")
+        return redirect("/pet/index")
 
-    # pet = PetCommentForm(instance=pet)
-    return render(request, "pet/edit.html", context={"pet": pet})
+    form = PetForm(instance=pet)
+    pet_id = pet.id  # type: ignore
+    # nameから画像添付の有無を確認
+    if pet.image.name:
+        pet_image_url = pet.image.url
+    else:
+        pet_image_url = "/static/image/no-image.png"
+    return render(
+        request,
+        "pet/edit.html",
+        context={"form": form, "pet_id": pet_id, "pet_image_url": pet_image_url},
+    )
 
 
 def delete(request, id):

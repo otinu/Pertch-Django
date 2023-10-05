@@ -29,10 +29,12 @@ class PetForm(forms.ModelForm):
                 (False, "♀"),
             ],
         ),
+        required=False,
     )
 
     image = forms.ImageField(
         label="写真",
+        widget=forms.FileInput,
         required=False,
     )
 
