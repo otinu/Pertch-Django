@@ -13,6 +13,7 @@ from petCommentApp.forms import PetCommentForm
 
 def index(request):
     list = PetModel.objects.all()
+    list = list.order_by("created_at").reverse()
     return render(request, "pet/index.html", {"list": list})
 
 
@@ -30,7 +31,7 @@ def new(request):
         pet = form.save(commit=False)
 
         now = datetime.now()
-        today = now.strftime("%Y-%m-%d")
+        today = now.strftime("%Y-%m-%d %H:%M:%S")
 
         pet.created_at = today
         pet.updated_at = today
@@ -54,6 +55,7 @@ def show(request, id):
         )
 
     pet_comment_list = pet.petcommentmodel_set.all()  # type: ignore
+    pet_comment_list = pet_comment_list.order_by("created_at").reverse()
     form = PetCommentForm()
     return render(
         request,
@@ -88,8 +90,9 @@ def edit(request, id):
             edit_pet.image = pet.image
 
         now = datetime.now()
-        today = now.strftime("%Y-%m-%d")
+        today = now.strftime("%Y-%m-%d %H:%M:%S")
 
+        edit_pet.created_at = pet.created_at
         edit_pet.updated_at = today
         edit_pet.owner = get_current_authenticated_user()
 

@@ -26,7 +26,7 @@ def new(request):
     pet_comment = form.save(commit=False)
 
     now = datetime.now()
-    today = now.strftime("%Y-%m-%d")
+    today = now.strftime("%Y-%m-%d %H:%M:%S")
 
     pet_comment.created_at = today
     pet_comment.updated_at = today

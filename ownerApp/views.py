@@ -34,7 +34,7 @@ def registration(request):
 
         # created_at,updated_at用
         now = datetime.datetime.now()
-        today = now.strftime("%Y-%m-%d")
+        today = now.strftime("%Y-%m-%d %H:%M:%S")
 
         try:
             owner = Owner.objects.create(
@@ -47,7 +47,7 @@ def registration(request):
             password = request.POST.get("password")
             owner.set_password(password)
             owner.save()
-            return redirect("login")
+            return redirect("/owner/login")
         except IntegrityError as e:
             traceback.format_exc()
             return render(
