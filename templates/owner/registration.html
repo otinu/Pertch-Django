@@ -7,23 +7,30 @@
 
 {% block main %}
 
-{% if error_message %}
-<script>alert("{{ error_message }}");</script>
+{% if messages %}
+{% for message in messages %}
+<script>alert("{{ message }}");</script>
+{% endfor %}
 {% endif %}
 
 <main class="main">
     <form class="form" method="post" action="{% url 'owner:registration' %}">
         {% csrf_token %}
         <div class="form__item">
-            <label for="username">Name</label><input type="text" placeholder="お名前" name="username" />
+            <label for="username">Name</label>
+            <!-- <input type="text" placeholder="お名前" name="username" /> -->
+            {{ form.username }}
         </div>
         <div class="form__item">
-            <label for="password">Password</label> <input type="password" placeholder="パスワード" autocomplete="off"
-                name="password" required />
+            <label for="password">Password</label>
+            <!-- <input type="password" placeholder="パスワード" autocomplete="off" name="password" required /> -->
+            {{ form.password }}
         </div>
 
         <div class="form__item">
-            <label for="contact">Email</label> <input type="text" placeholder="メールアドレス" name="contact" required />
+            <label for="contact">Email</label>
+            <!-- <input type="text" placeholder="メールアドレス" name="contact" required /> -->
+            {{ form.contact }}
         </div>
         <div class="form__item">
             <label for="password">Message</label>

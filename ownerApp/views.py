@@ -4,11 +4,10 @@ import traceback
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
-from django.db import IntegrityError
 from django.contrib import messages
 
-from .forms import registration_form
 from .models import Owner
+from .forms import OwnerForm
 
 
 def top(request):
@@ -17,48 +16,29 @@ def top(request):
 
 def registration(request):
     if request.method == "POST":
-        """
-        # ToDo バリデーション追加
-        form = registration_form(request.POST)
-        if form.is_valid():
-            return render(
-                request,
-                "owner/registration.html",
-                {"errorMessages": "Name,Password,Emailの入力は必須です"},
-            )
-        """
+        form = OwnerForm(request.POST)
+        if "username" in form.errors and form.errors["username"] == [
+            "Owner with this Username already exists."
+        ]:
+            messages.error(request, "エラーが発生しました。ご入力のユーザー名は既に登録済みでした")
+            return redirect("/owner/registration/")
 
-        username = request.POST.get("username")
-        message = request.POST.get("message")
-        contact = request.POST.get("contact")
+        if "password" in form.errors and len(form.errors["password"]) > 0:
+            messages.error(request, "エラーが発生しました。パスワードは4～12文字、英語小文字・大文字を含めてご入力ください")
+            return redirect("/owner/registration/")
 
-        # created_at,updated_at用
-        now = datetime.datetime.now()
-        today = now.strftime("%Y-%m-%d %H:%M:%S")
+        if "contact" in form.errors and len(form.errors["contact"]) > 0:
+            messages.error(request, "エラーが発生しました。有効なメールアドレスをご入力ください")
+            return redirect("/owner/registration/")
 
-        try:
-            owner = Owner.objects.create(
-                username=username,
-                message=message,
-                contact=contact,
-                created_at=today,
-                updated_at=today,
-            )
-            password = request.POST.get("password")
-            owner.set_password(password)
-            owner.save()
-            return redirect("/owner/login")
-        except IntegrityError as e:
-            traceback.format_exc()
-            return render(
-                request,
-                "owner/registration.html",
-                {"error_message": "ユーザー登録に問題が発生しました"},
-            )
+        owner = form.save(commit=False)
+        owner.set_password(form.cleaned_data["password"])
+        owner.save()
 
     separation_string = screen_separation(request)
     if separation_string == "normal":
-        return render(request, "owner/registration.html")
+        form = OwnerForm
+        return render(request, "owner/registration.html", context={"form": form})
     elif separation_string == "abnormal":
         return render(
             request,

@@ -1,10 +1,8 @@
 const goToTop = (event) => {
-
-    let name = document.body.querySelector("#name").value
-    let password = document.body.querySelector("#password").value
     let userName = document.body.querySelector("#username").value
-    let message = document.body.querySelector("#message").value
+    let password = document.body.querySelector("#password").value
     let contact = document.body.querySelector("#contact").value
+    let message = document.body.querySelector("#message").value
 
     // 入力欄に1箇所でも記入がある場合、入力破棄のアラートを表示
     if (!(!name && !password && !userName && !message && !contact)) {

@@ -17,12 +17,12 @@ class Owner(AbstractUser, models.Model):
     username = models.CharField(max_length=20, unique=True)
     # パスワード
     password = models.TextField()
-    # 目撃者へのメッセージ
-    message = models.TextField()
-    # 連絡先
+    # 連絡先1
     contact = models.EmailField(max_length=30, unique=True)
-    # 連絡先（予備）
+    # 連絡先2
     sub_contact = models.CharField(max_length=30)
+    # メッセージ
+    message = models.TextField()
 
     now = datetime.datetime.now()
     # 登録日時
