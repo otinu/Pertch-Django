@@ -41,13 +41,14 @@
             {% csrf_token %}
             <div></div>
             <label>連絡先1</label><br>
-            <input type="text" class="owner-contact" name="contact" value="{{ owner.contact }}"></input>
+            {{ form.contact }}
             <div></div>
             <label>連絡先2</label><br>
-            <input type="text" class="owner-contact" name="sub-contact" value="{{ owner.sub_contact }}"></input>
+            {{ form.sub_contact }}
             <div></div>
             <label>目撃者へのメッセージ</label><br>
-            <textarea class="owner-message" name="owner-message">{{ owner.message }}</textarea><br>
+            {{ form.message }}
+
             <input type="submit" class="submit-button" value="更新">
         </form>
     </div>

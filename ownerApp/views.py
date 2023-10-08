@@ -7,7 +7,7 @@ from django_currentuser.middleware import get_current_authenticated_user
 from django.contrib import messages
 
 from .models import Owner
-from .forms import OwnerForm
+from .forms import OwnerForm, MypageForm
 
 
 def top(request):
@@ -17,6 +17,7 @@ def top(request):
 def registration(request):
     if request.method == "POST":
         form = OwnerForm(request.POST)
+
         if "username" in form.errors and form.errors["username"] == [
             "Owner with this Username already exists."
         ]:
@@ -60,17 +61,6 @@ def login_func(request):
         else:
             return render(request, "owner/login.html", {"error_message": "ログインに失敗しました"})
 
-    """
-    # ログイン画面への遷移時
-    hidden_list = ["registration", "top"]
-    if not hidden_list in request.GET["hidden_value"]:
-        return render(request, "owner/login.html")
-
-    # ログイン画面から他の画面への遷移時
-    next = request.GET["hidden_value"]
-    next_page = "owner/" + next
-    return render(request, next_page)
-    """
     separation_string = screen_separation(request)
     if separation_string == "normal":
         return render(request, "owner/login.html")
@@ -91,10 +81,11 @@ def logout_func(request):
 
 def mypage(request):
     owner = get_current_authenticated_user()
+    form = MypageForm(instance=owner)
     return render(
         request,
         "owner/mypage.html",
-        {"owner": owner},
+        {"owner": owner, "form": form},
     )
 
 
@@ -119,21 +110,13 @@ def detail(request, id):
 def update(request):
     current_user = get_current_authenticated_user()
     owner = Owner.objects.get(id=current_user.id)  # type: ignore
+    form = MypageForm(request.POST, instance=owner)
 
-    owner.contact = request.POST.get("contact")
-    owner.sub_contact = request.POST.get("sub-contact")
-    owner.message = request.POST.get("owner-message")
+    if "contact" in form.errors and len(form.errors["contact"]) > 0:
+        messages.error(request, "エラーが発生しました。有効なメールアドレスをご入力ください")
+        return redirect("/owner/mypage/")
 
-    try:
-        owner.save()
-    except Exception as e:
-        traceback.format_exc()
-        return render(
-            request,
-            "owner/mypage.html",
-            {"owner": owner, "error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
-        )
-
+    form.save()
     messages.success(request, "マイページ情報の更新が完了しました")
     return redirect("/owner/mypage")
 

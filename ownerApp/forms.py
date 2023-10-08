@@ -37,7 +37,7 @@ class OwnerForm(forms.ModelForm):
 
     class Meta:
         model = Owner
-        fields = ("username", "password", "contact", "sub_contact", "message")
+        fields = ("username", "password", "contact", "message")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -49,3 +49,40 @@ class OwnerForm(forms.ModelForm):
         if re.match(pattern, password):
             return password
         raise forms.ValidationError("エラーが発生しました。パスワードは4～12文字、英語小文字・大文字を含めて入力が必要です")
+
+
+class MypageForm(forms.ModelForm):
+    contact = forms.CharField(
+        label="連絡先1",
+        widget=forms.EmailInput(
+            attrs={"class": "owner-contact", "placeholder": "メールアドレス"}
+        ),
+    )
+
+    sub_contact = forms.CharField(
+        label="連絡先2",
+        widget=forms.TextInput(
+            attrs={"class": "owner-contact", "placeholder": "予備の連絡先"}
+        ),
+        required=False,
+    )
+
+    message = forms.CharField(
+        label="メッセージ",
+        max_length=1000,
+        widget=forms.Textarea(
+            attrs={
+                "id": "message",
+                "class": "owner-message",
+                "placeholder": "目撃者へのメッセージ",
+            }
+        ),
+        required=False,
+    )
+
+    class Meta:
+        model = Owner
+        fields = ("contact", "sub_contact", "message")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
