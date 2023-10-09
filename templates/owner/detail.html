@@ -35,7 +35,7 @@
         <div class="l-wrapper_06">
             <h2 style="margin: 0;">{{ pet.name }}</h2>
             <div class="card_06">
-                <a id="pet-img" href="{% url 'show' pet.id %}">
+                <a id="pet-img" href="{% url 'pet:show' pet.id %}">
                     <img class="card-img_06" src="{{ pet.image.url }}">
                 </a>
             </div>
