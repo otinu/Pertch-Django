@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .models import Owner
 from .forms import OwnerForm, MypageForm
@@ -74,11 +75,13 @@ def login_func(request):
         return redirect(separation_string)
 
 
+@login_required
 def logout_func(request):
     logout(request)
     return redirect("/owner/top")
 
 
+@login_required
 def mypage(request):
     owner = get_current_authenticated_user()
     form = MypageForm(instance=owner)
@@ -89,6 +92,7 @@ def mypage(request):
     )
 
 
+@login_required
 def detail(request, id):
     try:
         owner = Owner.objects.get(pk=id)
@@ -107,6 +111,7 @@ def detail(request, id):
         )
 
 
+@login_required
 def update(request):
     current_user = get_current_authenticated_user()
     owner = Owner.objects.get(id=current_user.id)  # type: ignore
@@ -121,6 +126,7 @@ def update(request):
     return redirect("/owner/mypage")
 
 
+@login_required
 def delete(request):
     current_user = get_current_authenticated_user()
     owner = Owner.objects.get(id=current_user.id)  # type: ignore

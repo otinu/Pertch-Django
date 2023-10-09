@@ -3,11 +3,13 @@ from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .models import PetModel
 from .forms import PetCommentForm
 
 
+@login_required
 def new(request):
     form = PetCommentForm(request.POST)
     pet_id = request.POST.get("pet_id")

@@ -5,18 +5,21 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django_currentuser.middleware import get_current_authenticated_user
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from petApp.models import PetModel
 from petApp.forms import PetForm
 from petCommentApp.forms import PetCommentForm
 
 
+@login_required
 def index(request):
     list = PetModel.objects.all()
     list = list.order_by("created_at").reverse()
     return render(request, "pet/index.html", {"list": list})
 
 
+@login_required
 def new(request):
     if request.method == "POST":
         form = PetForm(request.POST, request.FILES)
@@ -45,6 +48,7 @@ def new(request):
     return render(request, "pet/new.html", context={"form": form})
 
 
+@login_required
 def show(request, id):
     pet = get_one_pet(id)
     if pet is None:
@@ -64,6 +68,7 @@ def show(request, id):
     )
 
 
+@login_required
 def edit(request, id):
     pet = get_one_pet(id)
     if pet is None:
@@ -115,6 +120,7 @@ def edit(request, id):
     )
 
 
+@login_required
 def delete(request, id):
     pet = get_one_pet(id)
     if pet is None:
@@ -136,6 +142,7 @@ def delete(request, id):
         )
 
 
+@login_required
 def search(request):
     if request.method == "POST":
         name = request.POST.get("name")
