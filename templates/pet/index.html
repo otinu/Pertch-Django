@@ -101,9 +101,9 @@
                     {% else %}
                     <td style="text-align: center;">♀</td>
                     {% endif %}
-                    <td>{{ pet.charm_point }}</td>
+                    <td>{{ pet.charm_point| truncatechars:50 }}</td>
                     <td>{{ pet.post_cord }}</td>
-                    <td>{{ pet.address }}</td>
+                    <td>{{ pet.address| truncatechars:20 }}</td>
                     <td>
                         <!-- ToDo Ownerとのリレーション設定後に修正 -->
                         <a href="{% url 'owner:detail' pet.owner.id %}">{{ pet.owner.username }}</a>
