@@ -35,7 +35,7 @@
     <h4>{{ search_message }}</h4>
     {% endif %}
 
-    <form id="search" method="post" action="{% url 'search' %}">
+    <form id="search" method="post" action="{% url 'pet:search' %}">
         {% csrf_token %}
         <div class="search-inputarea">
             <div class="search-first-inputarea">
@@ -93,7 +93,7 @@
                 {% for pet in list %}
                 <tr align="center">
                     <td align="left">
-                        <a href="{% url 'show' pet.id %}">{{ pet.name }}</a>
+                        <a href="{% url 'pet:show' pet.id %}">{{ pet.name }}</a>
                     </td>
                     <td style="text-align: center;">{{ pet.age }}</td>
                     {% if pet.sex %}
@@ -110,7 +110,7 @@
                     </td>
                     <td>
                         {% if pet.owner.id == user.id %}
-                        <a href="{% url 'edit' pet.id %}">
+                        <a href="{% url 'pet:edit' pet.id %}">
                             <button type="submit">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
@@ -119,7 +119,7 @@
                     </td>
                     <td>
                         {% if pet.owner.id == user.id %}
-                        <a href="{% url 'delete' pet.id %}">
+                        <a href="{% url 'pet:delete' pet.id %}">
                             <button type="submit" id="deleteBtn">
                                 <i class="fa-solid fa-trash"></i>
                             </button>

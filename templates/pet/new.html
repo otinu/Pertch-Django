@@ -23,7 +23,7 @@
 
     <div class="form-container">
 
-        <form id="pet-new" method="post" action="{% url 'new' %}" enctype="multipart/form-data">
+        <form id="pet-new" method="post" action="{% url 'pet:new' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <h2 style="margin: 0;"><i class="fa-solid fa-shield-dog fa-2x"></i> ペット登録</h2>
 

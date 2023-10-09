@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import index, new, show, edit, delete, search
 
+app_name = "pet"
 urlpatterns = [
     path("index/", index, name="index"),
     path("new/", new, name="new"),

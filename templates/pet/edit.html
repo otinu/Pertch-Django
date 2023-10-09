@@ -23,7 +23,7 @@
 
     <div class="form-container">
 
-        <form id="pet-edit" method="post" action="{% url 'edit' pet_id %}" enctype="multipart/form-data">
+        <form id="pet-edit" method="post" action="{% url 'pet:edit' pet_id %}" enctype="multipart/form-data">
             {% csrf_token %}
 
             <h2 name="name" readonly>{{ form.name }}</h2>
@@ -35,7 +35,7 @@
                     <!-- <input type="number" id="age" name="age" value="{{ form.age }}" required> -->
                     {{ form.age }}
                 </div>
-                
+
                 <div class="gender-area">
                     <label>性別&nbsp;</label>
                     {% if form.sex.value %}
