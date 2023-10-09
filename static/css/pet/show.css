@@ -92,6 +92,17 @@ th:hover {
 
 /*--------- 目撃情報　---------*/
 
+table#sort_table {
+    table-layout: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+}
+
+table#sort_table tr {
+    word-wrap: break-word;
+}
+
 #eye-witness-title {
     margin-left: 10%;
 }
