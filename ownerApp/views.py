@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import traceback
 
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +12,7 @@ from .forms import OwnerForm, MypageForm
 
 
 def top(request):
+    print(datetime.now())
     return render(request, "owner/top.html")
 
 

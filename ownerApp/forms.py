@@ -23,10 +23,11 @@ class OwnerForm(forms.ModelForm):
 
     contact = forms.CharField(
         label="連絡先1",
+        max_length=30,
         widget=forms.EmailInput(attrs={"id": "contact", "placeholder": "メールアドレス"}),
     )
 
-    sub_contact = forms.CharField(label="連絡先2", required=False)
+    sub_contact = forms.CharField(label="連絡先2", max_length=30, required=False)
 
     message = forms.CharField(
         label="メッセージ",
@@ -44,7 +45,7 @@ class OwnerForm(forms.ModelForm):
 
     def clean_password(self):
         password = self.cleaned_data["password"]
-        pattern = r"^(?=.*[a-z])(?=.*[A-Z]).{4,12}$"
+        pattern = r"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{4,12}$"
 
         if re.match(pattern, password):
             return password
