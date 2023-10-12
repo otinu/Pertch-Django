@@ -37,6 +37,8 @@ def registration(request):
         owner = form.save(commit=False)
         owner.set_password(form.cleaned_data["password"])
         owner.save()
+        messages.success(request, "ユーザー登録が完了しました")
+        return redirect("/owner/login/")
 
     separation_string = screen_separation(request)
     if separation_string == "normal":
