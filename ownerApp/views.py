@@ -86,7 +86,7 @@ def detail(request, id):
             {"owner": owner, "pet_list": pet_list},
         )
     except Owner.DoesNotExist:
-        traceback.format_exc()
+        print(traceback.format_exc())
         return render(
             request,
             "pet/index.html",
@@ -118,7 +118,7 @@ def delete(request):
         logout(request)
         return redirect("/owner/top")
     except Exception as e:
-        traceback.format_exc()
+        print(traceback.format_exc())
         return render(
             request,
             "owner/mypage.html",

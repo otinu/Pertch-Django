@@ -134,7 +134,7 @@ def delete(request, id):
         pet.delete()
         return redirect("/pet/index")
     except Exception as e:
-        traceback.format_exc()
+        print(traceback.format_exc())
         return render(
             request,
             "pet/index.html",
