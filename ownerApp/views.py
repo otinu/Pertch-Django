@@ -52,7 +52,8 @@ def login_func(request):
             login(request, user)
             return redirect("pet:index")
         else:
-            return render(request, "owner/login.html", {"error_message": "ログインに失敗しました"})
+            messages.error(request, "ログインに失敗しました。ユーザー名とパスワードをご確認ください")
+            return redirect("/owner/login/")
 
     return render(request, "owner/login.html")
 
