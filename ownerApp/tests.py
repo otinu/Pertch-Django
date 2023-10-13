@@ -1,23 +1,25 @@
+import re
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse, resolve
 
-from ownerApp.views import registration
+from ownerApp.views import registration, login_func
 from ownerApp.forms import OwnerForm
-
-client = Client()
-url = reverse("owner:registration")
-response = client.get(url)
+from ownerApp.models import Owner
 
 
 class RegistrationTest(TestCase):
+    client = Client()
+    url = reverse("owner:registration")
+    response = client.get(url)
+
     # 初回アクセス
     def test_enter(self):
         # URLの確認
-        self.assertEqual(resolve(url).func, registration)
+        self.assertEqual(resolve(self.url).func, registration)
 
         # ステータスコードの確認
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     # 画面
     def test_layout(self):
@@ -37,7 +39,7 @@ class RegistrationTest(TestCase):
         ]
         for test_case in test_case_list:
             with self.subTest(test_case):
-                self.assertContains(response, test_case)
+                self.assertContains(self.response, test_case)
 
     # 通常登録
     def test_registration_normal(self):
@@ -212,3 +214,85 @@ class RegistrationTest(TestCase):
         }
         form = OwnerForm(data)
         self.assertFalse(form.is_valid())
+
+
+class LoginTest(TestCase):
+    client = Client()
+    url = reverse("owner:login")
+    response = client.get(url)
+
+    def setUp(self):
+        Owner.objects.create(
+            username="tester", password="Test1", contact="test@test.co.jp"
+        )
+
+    # 初回アクセス
+    def test_enter(self):
+        # URLの確認
+        self.assertEqual(resolve(self.url).func, login_func)
+
+        # ステータスコードの確認
+        self.assertEqual(self.response.status_code, 200)
+
+    # 画面
+    def test_layout(self):
+        test_case_list = [
+            '<img id="profile-img"',
+            '<input type="text" id="username" class="form-control" name="username"',
+            '<input type="password" id="inputPassword" class="form-control" name="password"',
+            "ログイン",
+            '<form class="form-signin" method="post" action="/owner/login/"',
+            "登録",
+            '<form class="form-signin" action="/owner/registration/"',
+            "TOP",
+            '<form class="form-signin" action="/owner/top/"',
+            '<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit"',
+        ]
+        for test_case in test_case_list:
+            with self.subTest(test_case):
+                self.assertContains(self.response, test_case)
+
+    # 通常ログイン
+    def test_login_normal(self):
+        user = Owner.objects.get(username="tester")
+        client = Client()
+        client.force_login(user)
+        response = client.get("/pet/index", follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)  # リダイレクトなしのため、要素数1
+
+    # 不正ログイン(ユーザー名,パスワード)
+    def test_login_both_abnormal(self):
+        user = Owner.objects.get(username="tester")
+        user.username = "otherTester"
+        user.password = "otherPassword11"
+        client = Client()
+        client.force_login(user)
+        response = client.get("/pet/index", follow=True)
+
+        redirect_pattern = r"/owner/top/.*"
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+
+    # 不正ログイン(ユーザー名)
+    def test_login_username_abnormal(self):
+        user = Owner.objects.get(username="tester")
+        user.username = "otherTester"
+        client = Client()
+
+        # force_login()では、username誤りでもログイン成功状態になってしまった
+        # ⇒login()で解決
+        client.login(username=user.username, password=user.password)
+
+        response = client.get("/pet/index", follow=True)
+        redirect_pattern = r"/owner/top/.*"
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+
+    # 不正ログイン(パスワード)
+    def test_login_password_abnormal(self):
+        user = Owner.objects.get(username="tester")
+        user.password = "otherPassword11"
+        client = Client()
+        client.login(username=user.username, password=user.password)
+
+        response = client.get("/pet/index", follow=True)
+        redirect_pattern = r"/owner/top/.*"
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
