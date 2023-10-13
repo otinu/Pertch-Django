@@ -12,7 +12,6 @@ from .forms import OwnerForm, MypageForm
 
 
 def top(request):
-    print(datetime.now())
     return render(request, "owner/top.html")
 
 
@@ -40,18 +39,8 @@ def registration(request):
         messages.success(request, "ユーザー登録が完了しました")
         return redirect("/owner/login/")
 
-    separation_string = screen_separation(request)
-    if separation_string == "normal":
-        form = OwnerForm
-        return render(request, "owner/registration.html", context={"form": form})
-    elif separation_string == "abnormal":
-        return render(
-            request,
-            "owner/registration.html",
-            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
-        )
-    else:
-        return redirect(separation_string)
+    form = OwnerForm
+    return render(request, "owner/registration.html", context={"form": form})
 
 
 def login_func(request):
@@ -65,17 +54,7 @@ def login_func(request):
         else:
             return render(request, "owner/login.html", {"error_message": "ログインに失敗しました"})
 
-    separation_string = screen_separation(request)
-    if separation_string == "normal":
-        return render(request, "owner/login.html")
-    elif separation_string == "abnormal":
-        return render(
-            request,
-            "owner/login.html",
-            {"error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
-        )
-    else:
-        return redirect(separation_string)
+    return render(request, "owner/login.html")
 
 
 @login_required
@@ -144,16 +123,3 @@ def delete(request):
             "owner/mypage.html",
             {"owner": owner, "error_message": "予期せぬエラーが発生しました\n管理者にご確認ください"},
         )
-
-
-def screen_separation(request):
-    try:
-        next_url = request.GET["hidden_value"]
-        return "/owner/" + next_url
-    except KeyError as e:
-        error_message = traceback.format_exception_only(type(e), e)[0]
-        if "django.utils.datastructures.MultiValueDictKeyError" in error_message:
-            return "normal"
-
-        traceback.format_exc()
-        return "abnormal"
