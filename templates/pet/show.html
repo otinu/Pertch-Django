@@ -48,7 +48,6 @@
             </div>
 
             <label>オーナー</label>
-            <!-- ToDo owner/showへのリンク -->
             <a id="owner-show-link" href="{% url 'owner:detail' pet.owner.id %}">{{ pet.owner.username }}</a>
             <label>特徴</label>
             <textarea readonly>{{ pet.charm_point }}</textarea>
@@ -101,10 +100,10 @@
         </form>
 
     </div>
-{% endblock main %}
+    {% endblock main %}
 
-{% block extra_javascript %}
-<script src="{% static 'js/pet/show.js' %}"></script>
-<script src="{% static 'js/header.js' %}"></script>
-<script src="{% static 'js/sort.js' %}"></script>
-{% endblock extra_javascript %}
+    {% block extra_javascript %}
+    <script src="{% static 'js/pet/show.js' %}"></script>
+    <script src="{% static 'js/header.js' %}"></script>
+    <script src="{% static 'js/sort.js' %}"></script>
+    {% endblock extra_javascript %}

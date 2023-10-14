@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import reverse, resolve
 from django.core.files import File
-from django.db.models.fields.files import ImageFieldFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from petApp.views import index, new, show
 from petApp.forms import PetForm
@@ -38,7 +38,6 @@ class NewTest(TestCase):
             "name": pet.name,
             "age": pet.age,
             "sex": True,
-            "image": File(open("media/pet/test.png")),
             "charm_point": pet.charm_point,
             "post_cord": pet.post_cord,
             "address": pet.address,
@@ -101,11 +100,16 @@ class NewTest(TestCase):
         test_pet = PetModel.objects.get(pk=999)
 
         # Formクラスのバリデーションの代わりにsave()にてテスト実施
-        form = PetForm(self.data)
+        url = reverse("pet:new")
+        with open("media/pet/test.png", "rb") as f:
+            file = SimpleUploadedFile(f.name, f.read(), content_type="image/png")
+        image = {"image": file}
+
+        form = PetForm(self.data, image)
         self.assertTrue(form.is_valid())
         pet = form.save(commit=False)
         pet.owner = test_pet.owner
-        form.save()
+        pet.save()
 
         ## ペットの写真なし
         pet.image = None
@@ -136,8 +140,6 @@ class NewTest(TestCase):
 
     # 異常登録(年齢)
     def test_registration_abnormal(self):
-        test_pet = PetModel.objects.get(pk=999)
-
         ## 名前(1文字)
         self.data["name"] = "t"
         form = PetForm(self.data)
@@ -233,13 +235,6 @@ class NewTest(TestCase):
 
 
 """
-# ログインに成功し、正常なリダイレクトのみか確認
-redirect_pattern = r"/owner/top/.*"
-self.assertFalse(re.match(redirect_pattern, response.redirect_chain[0][0]))
-self.assertEqual(len(response.redirect_chain), 1)
-"""
-
-
 class ShowTest(TestCase):
     def setUp(self) -> None:
         self.user = Owner.objects.create(
@@ -271,3 +266,20 @@ class ShowTest(TestCase):
         # ステータスコードの確認
         response = self.client.get("/pet/show/999", follow=True)
         self.assertEqual(response.status_code, 200)
+
+    # 画面
+    def test_layout(self):
+        user = Owner.objects.get(username="tester")
+        self.client.force_login(user)
+
+        test_pet = PetModel.objects.get(pk=999)
+        response = self.client.get("/pet/show/999", follow=True)
+
+        test_case_list = [
+            '<h2 style="margin: 0;">' + test_pet.name + "</h2>",
+            '<i class="fa-solid fa-shield-dog',
+        ]
+        for test_case in test_case_list:
+            with self.subTest(test_case):
+                self.assertContains(response, test_case)
+"""
