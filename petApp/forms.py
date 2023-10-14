@@ -21,7 +21,6 @@ class PetForm(forms.ModelForm):
     sex = forms.BooleanField(
         label="性別",
         initial=[True],
-        # choices=sex_list,
         widget=forms.RadioSelect(
             attrs={"class": "radio-button"},
             choices=[
@@ -62,6 +61,12 @@ class PetForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def clean_charm_point(self):
+        charm_point = self.cleaned_data["charm_point"]
+        if charm_point is None:
+            forms.ValidationError
+        return charm_point
 
     def clean_post_cord(self):
         post_cord = self.cleaned_data["post_cord"]
