@@ -6,7 +6,7 @@ from django.urls import reverse, resolve
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from petApp.views import index, new, show
+from petApp.views import index, new, show, edit
 from petApp.forms import PetForm
 from petCommentApp.forms import PetCommentForm
 from ownerApp.models import Owner
@@ -137,7 +137,7 @@ class NewTest(TestCase):
         pet.address = test_pet.address
         pet.save()
 
-    # 異常登録
+    # 異常登録/更新
     def test_registration_abnormal(self):
         ## 名前(1文字)
         self.data["name"] = "t"
@@ -230,6 +230,13 @@ class NewTest(TestCase):
         form = PetForm(self.data)
         if form.errors is not None:
             self.assertTrue("post_cord" in form.errors)
+        self.assertFalse(form.is_valid())
+
+        ## 住所(51文字)
+        self.data["address"] = "t" * 51
+        form = PetForm(self.data)
+        if form.errors is not None:
+            self.assertTrue("address" in form.errors)
         self.assertFalse(form.is_valid())
 
 
@@ -409,3 +416,159 @@ class ShowTest(TestCase):
         if form.errors is not None:
             self.assertTrue("event_information" in form.errors)
         self.assertFalse(form.is_valid())
+
+
+class EditTest(TestCase):
+    def setUp(self) -> None:
+        user = Owner.objects.create(
+            username="tester", password="Test1", contact="test@test.co.jp"
+        )
+
+        pet = PetModel.objects.create(
+            id=999,
+            name="testPet",
+            age=99,
+            sex=True,
+            charm_point="test",
+            post_cord="9999999",
+            address="test",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=user,
+        )
+
+        self.data = {
+            "id": pet.pk,
+            "name": pet.name,
+            "age": pet.age,
+            "sex": True,
+            "charm_point": pet.charm_point,
+            "post_cord": pet.post_cord,
+            "address": pet.address,
+            "created_at": pet.created_at,
+            "updated_at": pet.updated_at,
+        }
+
+    # 初回アクセス
+    def test_enter(self):
+        user = Owner.objects.get(username="tester")
+        self.client.force_login(user)
+
+        # URLの確認
+        url = reverse("pet:edit", kwargs={"id": 999})
+        self.assertEqual(resolve(url).func, edit)
+
+        # ステータスコードの確認
+        response = self.client.get("/pet/edit/999", follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    # 画面
+    def test_layout(self):
+        user = Owner.objects.get(username="tester")
+        self.client.force_login(user)
+
+        test_pet = PetModel.objects.get(pk=999)
+        response = self.client.get("/pet/edit/999", follow=True)
+
+        sex = "♂" if test_pet.sex else "♀"
+
+        charm_point = (
+            '<textarea name="charm_point" cols="40" rows="10" maxlength="1000" id="id_charm_point">'
+            + "\n"
+            + test_pet.charm_point
+        )
+
+        post_cord = (
+            '<input type="number" name="post_cord" value="'
+            + str(test_pet.post_cord)
+            + '"'
+        )
+
+        ## 画面(ペット)
+        test_case_list = [
+            '<input type="text" name="name" value="' + test_pet.name + '"',
+            '<img id="pet-image" src="/static/image/no-image.png">',
+            "年齢",
+            '<input type="number" name="age" value="' + str(test_pet.age) + '"',
+            "性別",
+            "<p>" + sex + "</p>",
+            "ペットの写真",
+            "未選択",
+            '<input type="file" name="image"',
+            "特徴",
+            charm_point,
+            "郵便番号",
+            post_cord,
+            "住所",
+            '<input type="text" name="address" value="' + test_pet.address + '"',
+            "<small>©Otinu</small>",
+        ]
+        for test_case in test_case_list:
+            with self.subTest(test_case):
+                self.assertContains(response, test_case)
+
+    # 通常更新
+    def test_registration_normal(self):
+        origin_pet = PetModel.objects.get(pk=999)
+        edit_pet = PetModel.objects.get(pk=999)
+
+        ## 名前更新
+        edit_pet.name = "new_name"
+        edit_pet.save()
+        edit_pet.name = origin_pet.name
+
+        ##  年齢更新
+        edit_pet.age = 5
+        edit_pet.save()
+        edit_pet.age = origin_pet.age
+
+        ## ペットの写真(なし⇒あり)
+        with open("media/pet/test.png", "rb") as f:
+            file = SimpleUploadedFile(f.name, f.read(), content_type="image/png")
+        image = {"image": file}
+        form = PetForm(self.data, image)
+        self.assertTrue(form.is_valid())
+
+        ## ペットの写真(あり⇒なし)
+        new_pet = PetModel.objects.create(
+            id=1000,
+            name="new_name",
+            age=0,
+            sex=True,
+            image="new.png",
+            charm_point="new_charm_point",
+            post_cord="0000000",
+            address="new_address",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=origin_pet.owner,
+        )
+        new_pet.image = None  # type: ignore
+        new_pet.save()
+
+        ## 特徴更新
+        edit_pet.charm_point = "new_charm_point"
+        edit_pet.save()
+        edit_pet.charm_point = origin_pet.charm_point
+
+        ## 郵便番号更新
+        edit_pet.post_cord = 2222222
+        edit_pet.save()
+        edit_pet.post_cord = origin_pet.post_cord
+
+        ## 住所更新
+        edit_pet.address = "new_address"
+        edit_pet.save()
+        edit_pet.address = origin_pet.address
+
+        ## 全更新
+        edit_pet.name = new_pet.name
+        edit_pet.age = new_pet.age
+        edit_pet.image = new_pet.image  # type: ignore
+        edit_pet.charm_point = new_pet.charm_point
+        edit_pet.post_cord = new_pet.post_cord
+        edit_pet.address = new_pet.address
+        edit_pet.save()
+
+    # 異常登録
+    # ⇒NewTest.test_registration_normal(self)にて確認
