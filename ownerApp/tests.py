@@ -470,3 +470,82 @@ class MypageTest(TestCase):
             self.assertTrue(False)
         except PetModel.DoesNotExist:
             self.assertTrue(True)
+
+
+class DetailTest(TestCase):
+    def setUp(self) -> None:
+        user = Owner.objects.create(
+            id=999,
+            username="tester",
+            password="Test1",
+            contact="test@test.co.jp",
+            sub_contact="080-1111-1111",
+            message="test_message",
+        )
+
+        PetModel.objects.create(
+            id=999,
+            name="testPet",
+            age=99,
+            sex=True,
+            charm_point="test",
+            post_cord="9999999",
+            address="test",
+            image="test_image.png",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=user,
+        )
+
+        PetModel.objects.create(
+            id=1000,
+            name="otherPet",
+            age=0,
+            sex=False,
+            charm_point="other",
+            post_cord="1111111",
+            address="other",
+            image="other_image.png",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=user,
+        )
+
+    # 初回アクセス
+    def test_enter(self):
+        user = Owner.objects.get(username="tester")
+        self.client.force_login(user)
+
+        # URLの確認
+        url = reverse("owner:detail", kwargs={"id": 999})
+        self.assertEqual(resolve(url).func, detail)
+
+        # ステータスコードの確認
+        response = self.client.get("/owner/detail/999", follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    # 画面
+    def test_layout(self):
+        user = Owner.objects.get(username="tester")
+        pet = PetModel.objects.get(pk=999)
+        other_pet = PetModel.objects.get(pk=1000)
+        self.client.force_login(user)
+        response = self.client.get("/owner/detail/999", follow=True)
+
+        test_case_list = [
+            '<i class="fa-solid fa-user fa-3x"></i>',
+            '<h2 id="owner-name">' + user.username,
+            '<p id="owner-contact">' + user.contact,
+            '<p id="owner-contact">' + user.sub_contact,
+            "<textarea readonly>" + user.message,
+            '<h2 style="margin: 0;">' + pet.name,
+            '<img class="card-img_06" src="/media/' + str(pet.image) + '">',
+            '<a id="pet-img" href="/pet/show/' + str(pet.pk) + '"',
+            '<h2 style="margin: 0;">' + other_pet.name,
+            '<img class="card-img_06" src="/media/' + str(other_pet.image) + '">',
+            '<a id="pet-img" href="/pet/show/' + str(other_pet.pk) + '"',
+            "<small>©Otinu</small>",
+        ]
+        for test_case in test_case_list:
+            with self.subTest(test_case):
+                self.assertContains(response, test_case)
