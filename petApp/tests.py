@@ -570,5 +570,5 @@ class EditTest(TestCase):
         edit_pet.address = new_pet.address
         edit_pet.save()
 
-    # 異常登録
-    # ⇒NewTest.test_registration_normal(self)にて確認
+    # 異常更新
+    # ⇒NewTest.test_registration_abnormal(self)にて確認

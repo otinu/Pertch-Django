@@ -55,6 +55,7 @@ class OwnerForm(forms.ModelForm):
 class MypageForm(forms.ModelForm):
     contact = forms.CharField(
         label="連絡先1",
+        max_length=30,
         widget=forms.EmailInput(
             attrs={"class": "owner-contact", "placeholder": "メールアドレス"}
         ),
@@ -62,6 +63,7 @@ class MypageForm(forms.ModelForm):
 
     sub_contact = forms.CharField(
         label="連絡先2",
+        max_length=30,
         widget=forms.TextInput(
             attrs={"class": "owner-contact", "placeholder": "予備の連絡先"}
         ),
