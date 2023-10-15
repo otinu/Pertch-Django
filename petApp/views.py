@@ -148,12 +148,12 @@ def search(request):
         name = request.POST.get("name")
         age = request.POST.get("age")
         sex_string = request.POST.get("sex")
-        if sex_string:
+        if sex_string == "true":
             sex = True
         else:
             sex = False
-        charm_point = request.POST.get("charm-point")
-        post_cord = request.POST.get("post-cord")
+        charm_point = request.POST.get("charm_point")
+        post_cord = request.POST.get("post_cord")
         address = request.POST.get("address")
         owner = request.POST.get("owner")
 
@@ -163,7 +163,7 @@ def search(request):
             list = list.filter(name__icontains=name)
         if age:
             list = list.filter(age=age)
-        if sex:
+        if sex is not None:
             list = list.filter(sex=sex)
         if charm_point:
             list = list.filter(charm_point__icontains=charm_point)
