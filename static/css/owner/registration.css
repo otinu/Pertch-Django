@@ -66,7 +66,8 @@ input[type=submit] {
 }
 
 .form__item>input[type=text],
-.form__item>input[type=password] {
+.form__item>input[type=password],
+.form__item>input[type=email] {
     width: 50%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     line-height: 40px;
@@ -74,13 +75,16 @@ input[type=submit] {
 
 .form__item>input[type=text]:hover,
 .form__item>input[type=password]:hover,
+.form__item>input[type=email]:hover,
 .form__item>input[type=text]:focus,
-.form__item>input[type=password]:focus {
+.form__item>input[type=password]:focus,
+.form__item>input[type=email]:focus {
     width: 100%;
 }
 
 .form__item>input[type=text]:hover,
-.form__item>input[type=password]:hover {
+.form__item>input[type=password]:hover,
+.form__item>input[type=email]:hover {
     border-color: #b0c4de;
     border-width: 2px;
 }
