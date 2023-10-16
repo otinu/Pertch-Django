@@ -147,11 +147,7 @@ def search(request):
     if request.method == "POST":
         name = request.POST.get("name")
         age = request.POST.get("age")
-        sex_string = request.POST.get("sex")
-        if sex_string == "true":
-            sex = True
-        else:
-            sex = False
+        sex = request.POST.get("sex")
         charm_point = request.POST.get("charm_point")
         post_cord = request.POST.get("post_cord")
         address = request.POST.get("address")
@@ -163,18 +159,25 @@ def search(request):
             list = list.filter(name__icontains=name)
         if age:
             list = list.filter(age=age)
-        if sex is not None:
-            list = list.filter(sex=sex)
+        if sex:
+            if sex == "true":
+                list = list.filter(sex=True)
+            elif sex == "false":
+                list = list.filter(sex=False)
         if charm_point:
             list = list.filter(charm_point__icontains=charm_point)
         if post_cord:
-            list = list.filter(post_cord=post_cord)
+            list = list.filter(post_cord__icontains=post_cord)
         if address:
             list = list.filter(address__icontains=address)
         if owner:
-            list = list.filter(owner__username=owner)
+            list = list.filter(owner__username__icontains=owner)
 
-        if type(list) == QuerySet:
+        # 未入力で検索ボタン押下
+        if hasattr(list, "name") and list.name == "objects":
+            return render(request, "pet/index.html", {"search_message": "検索結果は0件でした"})
+
+        if list.exists():
             return render(request, "pet/index.html", {"list": list})
         else:
             return render(request, "pet/index.html", {"search_message": "検索結果は0件でした"})
