@@ -40,23 +40,23 @@
         <div class="search-inputarea">
             <div class="search-first-inputarea">
                 <label>ペット名</label>
-                <input type=text name="name">
+                <input type="text" name="name">
                 <label>年齢</label>
                 <input type="number" class="search-input-age" name="age">
                 <label>性別</label>
                 <input type="radio" value="true" name="sex">♂
                 <input type="radio" value="false" name="sex">♀
                 <label>特徴</label>
-                <input type=text name="charm-point"></input>
+                <input type="text" name="charm_point"></input>
             </div>
             <div class="search-second-inputarea">
 
                 <label>郵便番号</label>
-                <input id="post-cord" type=text name="post-cord">
+                <input id="post-cord" type="text" name="post_cord">
                 <label>住所</label>
-                <input id="address" type=text name="address">
+                <input id="address" type="text" name="address">
                 <label>飼い主</label>
-                <input type=text name="owner">
+                <input type="text" name="owner">
             </div>
             <div>
                 <input type="submit" class="submit-button" value="検索">
@@ -105,7 +105,6 @@
                     <td>{{ pet.post_cord }}</td>
                     <td>{{ pet.address| truncatechars:20 }}</td>
                     <td>
-                        <!-- ToDo Ownerとのリレーション設定後に修正 -->
                         <a href="{% url 'owner:detail' pet.owner.id %}">{{ pet.owner.username }}</a>
                     </td>
                     <td>

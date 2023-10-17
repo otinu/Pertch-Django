@@ -1,9 +1,6 @@
-import re
 from datetime import datetime
-from django.test import TestCase
-from django.test import Client
+from django.test import TestCase, RequestFactory
 from django.urls import reverse, resolve
-from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from petApp.views import index, new, show, edit
@@ -12,6 +9,291 @@ from petCommentApp.forms import PetCommentForm
 from ownerApp.models import Owner
 from petApp.models import PetModel
 from petCommentApp.models import PetCommentModel
+
+
+class IndexTest(TestCase):
+    def setUp(self) -> None:
+        user = Owner.objects.create(
+            username="tester", password="Test1", contact="test@test.co.jp"
+        )
+
+        pet = PetModel.objects.create(
+            id=999,
+            name="testPet",
+            age=99,
+            sex=True,
+            charm_point="test",
+            post_cord="9999999",
+            address="test",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=user,
+        )
+
+        PetModel.objects.create(
+            id=1000,
+            name="otherPet",
+            age=0,
+            sex=False,
+            charm_point="other",
+            post_cord="1111111",
+            address="other",
+            image="other_image.png",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=user,
+        )
+
+        self.data = {
+            "id": pet.pk,
+            "name": pet.name,
+            "age": pet.age,
+            "sex": True,
+            "charm_point": pet.charm_point,
+            "post_cord": pet.post_cord,
+            "address": pet.address,
+            "created_at": pet.created_at,
+            "updated_at": pet.updated_at,
+        }
+
+    # 初回アクセス
+    def test_enter(self):
+        user = Owner.objects.get(username="tester")
+        self.client.force_login(user)
+
+        # URLの確認
+        url = reverse("pet:index")
+        self.assertEqual(resolve(url).func, index)
+
+        # ステータスコードの確認
+        response = self.client.get("/pet/index", follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    # 画面
+    def test_layout(self):
+        user = Owner.objects.get(username="tester")
+        self.client.force_login(user)
+        response = self.client.get("/pet/index", follow=True)
+
+        pet = PetModel.objects.get(pk=999)
+        other_pet = PetModel.objects.get(pk=1000)
+
+        pet_sex = "♂" if pet.sex else "♀"
+        other_pet_sex = "♂" if other_pet.sex else "♀"
+
+        other_pet_owner_link = (
+            '<a href="/owner/detail/'
+            + str(other_pet.owner.pk)
+            + '">'
+            + other_pet.owner.username
+        )
+
+        test_case_list = [
+            ## ロゴ
+            '<img id="title-logo-img" src="/static/image/title_logo.png">',
+            '<a id="title-logo-link" href="/pet/index"',
+            ## ハンバーガーメニュー
+            '<button class="hamburger-menu"',
+            "ペット一覧",
+            '<i class="fa-solid fa-magnifying-glass-location fa-2x"></i>',
+            "ペット登録",
+            '<i class="fa-solid fa-shield-dog fa-2x"></i>',
+            "マイページ",
+            '<i class="fa-solid fa-shield-dog fa-2x"></i>',
+            "ログアウト",
+            '<i class="fa-solid fa-door-open fa-2x"></i>',
+            ## 検索エリア
+            "ペット一覧",
+            '<h2 style="text-align: center;">',  # アイコンはハンバーガーメニューと重複のため省略
+            "ペット名",
+            '<input type="text" name="name"',
+            "年齢",
+            '<input type="number" class="search-input-age" name="age"',
+            "性別",
+            "♂",
+            '<input type="radio" value="true" name="sex"',
+            "♀",
+            '<input type="radio" value="false" name="sex"',
+            "特徴",
+            '<input type="text" name="charm_point"',
+            "郵便番号",
+            '<input id="post-cord" type="text" name="post_cord"',
+            "住所",
+            '<input id="address" type="text" name="address"',
+            "飼い主",
+            '<input type="text" name="owner"',
+            "検索",
+            '<input type="submit" class="submit-button" value="検索"',
+            '<form id="search" method="post" action="/pet/search/"',
+            ## テーブル(ヘッダ)
+            "ペット名",
+            "<th>ペット名&nbsp;",
+            "<th>年齢&nbsp;",
+            "<th>性別&nbsp;",
+            "<th>特徴&nbsp;",
+            "<th>郵便番号&nbsp;",
+            "<th>住所&nbsp;",
+            "<th>飼い主&nbsp;",
+            '<th id="no-sort-column">編集',
+            '<th id="no-sort-column">削除',
+            ## テーブル(ボディ)
+            '<a href="/pet/show/' + str(pet.pk) + '">' + pet.name,
+            '<td style="text-align: center;">' + str(pet.age),
+            '<td style="text-align: center;">' + pet_sex,
+            "<td>" + pet.charm_point,
+            "<td>" + str(pet.post_cord),
+            "<td>" + pet.address,
+            '<a href="/owner/detail/' + str(pet.owner.pk) + '">' + pet.owner.username,
+            '<a href="/pet/edit/' + str(pet.pk) + '">',
+            '<a href="/pet/delete/' + str(pet.pk) + '">',
+            '<a href="/pet/show/' + str(other_pet.pk) + '">' + other_pet.name,
+            '<td style="text-align: center;">' + str(other_pet.age),
+            '<td style="text-align: center;">' + other_pet_sex,
+            "<td>" + other_pet.charm_point,
+            "<td>" + str(other_pet.post_cord),
+            "<td>" + other_pet.address,
+            other_pet_owner_link,
+            '<a href="/pet/edit/' + str(other_pet.pk) + '">',
+            '<a href="/pet/delete/' + str(other_pet.pk) + '">',
+            '<i class="fa-solid fa-pen-to-square"></i>',
+            '<i class="fa-solid fa-trash"></i>',
+            ## フッター
+            "<small>©Otinu</small>",
+        ]
+        for test_case in test_case_list:
+            with self.subTest(test_case):
+                self.assertContains(response, test_case)
+
+    # 検索
+    def test_search(self):
+        user = Owner.objects.get(username="tester")
+        self.client.force_login(user)
+
+        owner1 = Owner.objects.create(
+            username="search_owner", password="Test1", contact="search@test.co.jp"
+        )
+        owner2 = Owner.objects.create(
+            username="検索owner", password="Test1", contact="search2@test.co.jp"
+        )
+
+        PetModel.objects.create(
+            id=2000,
+            name="search_dog",
+            age=1,
+            sex=True,
+            charm_point="おおきい犬",
+            post_cord="123456789",
+            address="香川県高松市",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=owner1,
+        )
+        PetModel.objects.create(
+            id=2001,
+            name="検索dog",
+            age=0,
+            sex=False,
+            charm_point="ちいさい犬",
+            post_cord="127654389",
+            address="香川県丸亀市",
+            image="other_image.png",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=owner2,
+        )
+        PetModel.objects.create(
+            id=2002,
+            name="search_cat",
+            age=3,
+            sex=True,
+            charm_point="おおきい猫",
+            post_cord="213456798",
+            address="高松市サンポート",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=owner1,
+        )
+
+        path = "/pet/search/"
+
+        ## 6項目検索
+        data = {
+            "name": "search",
+            "age": 3,
+            "sex": "true",
+            "charm_point": "おおきい",
+            "post_cord": "34567",
+            "address": "高松市",
+        }
+        response = self.client.post(path, data=data, follow=True)
+        self.assertContains(response, "search_cat")
+        self.assertNotContains(response, "search_dog")
+        self.assertNotContains(response, "検索dog")
+
+        ## 5項目検索
+        data = {
+            "name": "search",
+            "sex": "true",
+            "charm_point": "おおきい",
+            "post_cord": "34567",
+            "address": "高松市",
+        }
+        response = self.client.post(path, data=data, follow=True)
+        self.assertContains(response, "search_dog")
+        self.assertContains(response, "search_cat")
+        self.assertNotContains(response, "検索dog")
+
+        ## 4項目検索
+        data = {
+            "name": "検索",
+            "sex": "false",
+            "charm_point": "犬",
+            "address": "香川県",
+        }
+        response = self.client.post(path, data=data, follow=True)
+        self.assertContains(response, "検索dog")
+        self.assertNotContains(response, "search_dog")
+        self.assertNotContains(response, "search_cat")
+
+        ## 3項目検索
+        data = {
+            "name": "検索",
+            "charm_point": "犬",
+            "address": "香川県",
+        }
+        response = self.client.post(path, data=data, follow=True)
+        self.assertContains(response, "検索dog")
+        self.assertNotContains(response, "search_dog")
+        self.assertNotContains(response, "search_cat")
+
+        ## 2項目検索
+        data = {
+            "age": 3,
+            "address": "サンポート",
+        }
+        response = self.client.post(path, data=data, follow=True)
+        self.assertContains(response, "search_cat")
+        self.assertNotContains(response, "検索dog")
+        self.assertNotContains(response, "search_dog")
+
+        ## 1項目検索
+        data = {
+            "address": "市",
+        }
+        response = self.client.post(path, data=data, follow=True)
+        self.assertContains(response, "search_dog")
+        self.assertContains(response, "search_cat")
+        self.assertContains(response, "検索dog")
+
+        ## 結果なし
+        data = {
+            "post_cord": "22",
+        }
+        response = self.client.post(path, data=data, follow=True)
+        self.assertNotContains(response, "search_dog")
+        self.assertNotContains(response, "search_cat")
+        self.assertNotContains(response, "検索dog")
+        self.assertContains(response, "検索結果は0件でした")
 
 
 class NewTest(TestCase):
