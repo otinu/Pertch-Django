@@ -549,3 +549,53 @@ class DetailTest(TestCase):
         for test_case in test_case_list:
             with self.subTest(test_case):
                 self.assertContains(response, test_case)
+
+
+class LoginControlTest(TestCase):
+    def setUp(self):
+        user = Owner.objects.create(
+            id=999, username="tester", password="Test1", contact="test@test.co.jp"
+        )
+
+        PetModel.objects.create(
+            id=999,
+            name="testPet",
+            age=99,
+            sex=True,
+            charm_point="test",
+            post_cord="9999999",
+            address="test",
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            owner=user,
+        )
+
+    ## 異常ログイン
+    def test_login_normal(self):
+        redirect_pattern = r"/owner/top/.*"
+
+        response = self.client.get("/pet/index", follow=True)
+        breakpoint()
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+        response = self.client.get("/pet/new", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+        response = self.client.get("/pet/show/999", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[0][0]))
+        response = self.client.get("/pet/edit/999", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[0][0]))
+        response = self.client.get("/pet/delete/999", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[0][0]))
+        response = self.client.get("/pet/search", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+        response = self.client.get("/pet/petComment/new", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+        response = self.client.get("/owner/mypage", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+        response = self.client.get("/owner/detail/999", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[0][0]))
+        response = self.client.get("/owner/update", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+        response = self.client.get("/owner/delete", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
+        response = self.client.get("/owner/logout", follow=True)
+        self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
