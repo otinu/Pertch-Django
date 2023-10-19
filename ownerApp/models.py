@@ -20,9 +20,9 @@ class Owner(AbstractUser, models.Model):
     # 連絡先1
     contact = models.EmailField(max_length=30, unique=True)
     # 連絡先2
-    sub_contact = models.CharField(max_length=30)
+    sub_contact = models.CharField(max_length=30, null=True)
     # メッセージ
-    message = models.TextField()
+    message = models.TextField(null=True)
 
     now = datetime.datetime.now()
     # 登録日時

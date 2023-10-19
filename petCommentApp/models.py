@@ -11,12 +11,12 @@ class PetCommentModel(models.Model):
         db_table = "pet_comment"
 
     # 時間
-    event_time = models.DateTimeField()
+    event_time = models.DateTimeField(null=True)
 
     # 場所
-    event_place = models.CharField(max_length=80)
+    event_place = models.CharField(max_length=80, null=True)
     # 情報
-    event_information = models.CharField(max_length=200)
+    event_information = models.CharField(max_length=200, null=True)
 
     now = datetime.datetime.now()
     # 登録日時

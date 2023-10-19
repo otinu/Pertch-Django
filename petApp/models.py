@@ -22,13 +22,13 @@ class PetModel(models.Model):
     # 性別
     sex = models.BooleanField()
     # 特徴
-    charm_point = models.CharField(max_length=1000)
+    charm_point = models.CharField(max_length=1000, null=True)
     # 郵便番号
     post_cord = models.IntegerField(validators=[MaxValueValidator(9999999)])
     # 住所
-    address = models.CharField(max_length=50)
+    address = models.CharField(max_length=50, null=True)
     # 写真
-    image = models.ImageField(upload_to="pet/")
+    image = models.ImageField(upload_to="pet/", null=True)
 
     now = datetime.datetime.now()
     # 登録日時
