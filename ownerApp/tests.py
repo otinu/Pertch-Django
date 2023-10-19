@@ -357,7 +357,7 @@ class MypageTest(TestCase):
         message = (
             '<textarea name="message" cols="40" rows="10" id="message" class="owner-message" placeholder="目撃者へのメッセージ" maxlength="1000">'
             + "\n"
-            + user.message
+            + str(user.message)
         )
 
         test_case_list = [
@@ -366,7 +366,9 @@ class MypageTest(TestCase):
             "連絡先1",
             '<input type="email" name="contact" value="' + user.contact + '"',
             "連絡先2",
-            '<input type="text" name="sub_contact" value="' + user.sub_contact + '"',
+            '<input type="text" name="sub_contact" value="'
+            + str(user.sub_contact)
+            + '"',
             "目撃者へのメッセージ",
             message,
             "更新",
@@ -536,8 +538,8 @@ class DetailTest(TestCase):
             '<i class="fa-solid fa-user fa-3x"></i>',
             '<h2 id="owner-name">' + user.username,
             '<p id="owner-contact">' + user.contact,
-            '<p id="owner-contact">' + user.sub_contact,
-            "<textarea readonly>" + user.message,
+            '<p id="owner-contact">' + str(user.sub_contact),
+            "<textarea readonly>" + str(user.message),
             '<h2 style="margin: 0;">' + pet.name,
             '<img class="card-img_06" src="/media/' + str(pet.image) + '">',
             '<a id="pet-img" href="/pet/show/' + str(pet.pk) + '"',
@@ -575,7 +577,6 @@ class LoginControlTest(TestCase):
         redirect_pattern = r"/owner/top/.*"
 
         response = self.client.get("/pet/index", follow=True)
-        breakpoint()
         self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
         response = self.client.get("/pet/new", follow=True)
         self.assertTrue(re.match(redirect_pattern, response.redirect_chain[1][0]))
